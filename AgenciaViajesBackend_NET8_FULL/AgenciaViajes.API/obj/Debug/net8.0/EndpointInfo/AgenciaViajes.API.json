@@ -5,6 +5,18 @@
     "version": "1.0"
   },
   "paths": {
+    "/": {
+      "get": {
+        "tags": [
+          "AgenciaViajes.API"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Auth/register": {
       "post": {
         "tags": [
