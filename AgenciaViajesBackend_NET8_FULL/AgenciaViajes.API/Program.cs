@@ -1,4 +1,4 @@
-using AgenciaViajes.API.Services;
+﻿using AgenciaViajes.API.Services;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 using Google.Cloud.Firestore;
@@ -78,6 +78,11 @@ var app = builder.Build();
 
 app.UseSwagger();
 app.UseSwaggerUI();
+
+
+// 🚀 Redirige la raíz directamente a Swagger
+app.MapGet("/", () => Results.Redirect("/swagger"));
+
 
 app.UseCors();
 app.UseHttpsRedirection();
