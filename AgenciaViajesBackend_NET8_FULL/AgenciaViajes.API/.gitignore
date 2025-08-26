@@ -1,0 +1,82 @@
+# Visual Studio
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+*.exe
+*.dll
+*.pdb
+*.cache
+*.log
+*.vspscc
+*.vssscc
+*.nupkg
+
+# NuGet packages
+*.nupkg
+*.snupkg
+# The packages folder can be ignored because of PackageReference
+**/packages/*
+!**/packages/build/
+*.nuget.props
+*.nuget.targets
+
+# Rider
+.idea/
+
+# Resharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+
+# TFS
+$tf/
+
+# Coverage
+*.coverage
+*.coveragexml
+TestResult.xml
+TestResults/
+
+# Publish
+publish/
+out/
+dist/
+artifacts/
+
+# Docker
+*.container.cache
+*.dockerignore
+
+# Others
+*.dbmdl
+*.bak
+*.mdf
+*.ldf
+*.sqlite
+*.swp
+*.swo
+*.tmp
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# JSON de credenciales privadas (Firebase)
+serviceAccountKey.json
+
+# Configuración sensible
+appsettings.Development.json
+appsettings.Local.json
