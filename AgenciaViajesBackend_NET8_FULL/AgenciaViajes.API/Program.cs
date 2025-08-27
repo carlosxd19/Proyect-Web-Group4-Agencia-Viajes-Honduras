@@ -8,7 +8,9 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// CORS (allow Angular dev server)
+// =====================
+// CORS (para Angular dev server)
+// =====================
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
@@ -18,17 +20,53 @@ builder.Services.AddCors(options =>
               .AllowCredentials());
 });
 
+// =====================
+// Controllers + Swagger
+// =====================
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
-// HttpClient for REST Countries
+// Swagger con soporte de JWT
+builder.Services.AddSwaggerGen(c =>
+{
+    c.EnableAnnotations(); // ✅ permite usar [SwaggerOperation] en controladores
+
+    // 🔐 Configuración de seguridad JWT en Swagger
+    c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    {
+        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+        Description = "Introduce tu token JWT con el prefijo Bearer (ej: Bearer eyJhbGciOiJI...)",
+        Name = "Authorization",
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey
+    });
+
+    c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+    {
+        {
+            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+            {
+                Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                {
+                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });
+});
+
+// =====================
+// HttpClient para RestCountries
+// =====================
 builder.Services.AddHttpClient("restcountries", c =>
 {
     c.BaseAddress = new Uri("https://restcountries.com/");
 });
 
+// =====================
 // JWT Auth
+// =====================
 var jwtSection = builder.Configuration.GetSection("Jwt");
 var key = Encoding.UTF8.GetBytes(jwtSection["Key"]!);
 builder.Services.AddAuthentication(options =>
@@ -49,40 +87,51 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+// =====================
 // Firestore
+// =====================
 builder.Services.AddSingleton(provider =>
 {
     var fb = builder.Configuration.GetSection("Firebase");
     var credentialsPath = fb["CredentialsPath"];
-    if (!string.IsNullOrWhiteSpace(credentialsPath))
+
+    // ✅ Evitar inicializar FirebaseApp más de una vez
+    if (FirebaseApp.DefaultInstance == null)
     {
-        FirebaseApp.Create(new AppOptions
+        if (!string.IsNullOrWhiteSpace(credentialsPath))
         {
-            Credential = GoogleCredential.FromFile(credentialsPath)
-        });
+            FirebaseApp.Create(new AppOptions
+            {
+                Credential = GoogleCredential.FromFile(credentialsPath)
+            });
+        }
+        else
+        {
+            FirebaseApp.Create(); // usa GOOGLE_APPLICATION_CREDENTIALS env var
+        }
     }
-    else
-    {
-        FirebaseApp.Create(); // uses GOOGLE_APPLICATION_CREDENTIALS env var
-    }
+
     string projectId = fb["ProjectId"] ?? "";
     return new FirestoreDbBuilder { ProjectId = projectId }.Build();
 });
 
+// =====================
 // App Services
+// =====================
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<FirebaseService>();
 builder.Services.AddScoped<CountryService>();
 
+// =====================
+// App
+// =====================
 var app = builder.Build();
 
 app.UseSwagger();
 app.UseSwaggerUI();
 
-
 // 🚀 Redirige la raíz directamente a Swagger
 app.MapGet("/", () => Results.Redirect("/swagger"));
-
 
 app.UseCors();
 app.UseHttpsRedirection();

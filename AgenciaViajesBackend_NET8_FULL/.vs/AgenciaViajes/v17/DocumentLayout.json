@@ -5,6 +5,18 @@
     {
       "AbsoluteMoniker": "D:0:0:{11111111-1111-1111-1111-111111111111}|AgenciaViajes.API\\AgenciaViajes.API.csproj|c:\\users\\carlos\\documents\\proyecto inter viajes\\proyect-web-group4-agencia-viajes-honduras\\agenciaviajesbackend_net8_full\\agenciaviajes.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{11111111-1111-1111-1111-111111111111}|AgenciaViajes.API\\AgenciaViajes.API.csproj|solutionrelative:agenciaviajes.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{11111111-1111-1111-1111-111111111111}|AgenciaViajes.API\\AgenciaViajes.API.csproj|c:\\users\\carlos\\documents\\proyecto inter viajes\\proyect-web-group4-agencia-viajes-honduras\\agenciaviajesbackend_net8_full\\agenciaviajes.api\\controllers\\tripscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{11111111-1111-1111-1111-111111111111}|AgenciaViajes.API\\AgenciaViajes.API.csproj|solutionrelative:agenciaviajes.api\\controllers\\tripscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{11111111-1111-1111-1111-111111111111}|AgenciaViajes.API\\AgenciaViajes.API.csproj|c:\\users\\carlos\\documents\\proyecto inter viajes\\proyect-web-group4-agencia-viajes-honduras\\agenciaviajesbackend_net8_full\\agenciaviajes.api\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{11111111-1111-1111-1111-111111111111}|AgenciaViajes.API\\AgenciaViajes.API.csproj|solutionrelative:agenciaviajes.api\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{11111111-1111-1111-1111-111111111111}|AgenciaViajes.API\\AgenciaViajes.API.csproj|c:\\users\\carlos\\documents\\proyecto inter viajes\\proyect-web-group4-agencia-viajes-honduras\\agenciaviajesbackend_net8_full\\agenciaviajes.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{11111111-1111-1111-1111-111111111111}|AgenciaViajes.API\\AgenciaViajes.API.csproj|solutionrelative:agenciaviajes.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -28,9 +40,48 @@
               "RelativeDocumentMoniker": "AgenciaViajes.API\\Program.cs",
               "ToolTip": "C:\\Users\\carlos\\Documents\\Proyecto Inter Viajes\\Proyect-Web-Group4-Agencia-Viajes-Honduras\\AgenciaViajesBackend_NET8_FULL\\AgenciaViajes.API\\Program.cs",
               "RelativeToolTip": "AgenciaViajes.API\\Program.cs",
-              "ViewState": "AgIAAEUAAAAAAAAAAAAAAFIAAAAtAAAAAAAAAA==",
+              "ViewState": "AgIAABUAAAAAAAAAAAAAACYAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-26T03:34:56.744Z",
+              "WhenOpened": "2025-08-27T03:14:22.042Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AuthService.cs",
+              "DocumentMoniker": "C:\\Users\\carlos\\Documents\\Proyecto Inter Viajes\\Proyect-Web-Group4-Agencia-Viajes-Honduras\\AgenciaViajesBackend_NET8_FULL\\AgenciaViajes.API\\Services\\AuthService.cs",
+              "RelativeDocumentMoniker": "AgenciaViajes.API\\Services\\AuthService.cs",
+              "ToolTip": "C:\\Users\\carlos\\Documents\\Proyecto Inter Viajes\\Proyect-Web-Group4-Agencia-Viajes-Honduras\\AgenciaViajesBackend_NET8_FULL\\AgenciaViajes.API\\Services\\AuthService.cs",
+              "RelativeToolTip": "AgenciaViajes.API\\Services\\AuthService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T03:12:00.074Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "TripsController.cs",
+              "DocumentMoniker": "C:\\Users\\carlos\\Documents\\Proyecto Inter Viajes\\Proyect-Web-Group4-Agencia-Viajes-Honduras\\AgenciaViajesBackend_NET8_FULL\\AgenciaViajes.API\\Controllers\\TripsController.cs",
+              "RelativeDocumentMoniker": "AgenciaViajes.API\\Controllers\\TripsController.cs",
+              "ToolTip": "C:\\Users\\carlos\\Documents\\Proyecto Inter Viajes\\Proyect-Web-Group4-Agencia-Viajes-Honduras\\AgenciaViajesBackend_NET8_FULL\\AgenciaViajes.API\\Controllers\\TripsController.cs",
+              "RelativeToolTip": "AgenciaViajes.API\\Controllers\\TripsController.cs",
+              "ViewState": "AgIAAEIAAAAAAAAAAAAcwGIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T03:10:58.362Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\carlos\\Documents\\Proyecto Inter Viajes\\Proyect-Web-Group4-Agencia-Viajes-Honduras\\AgenciaViajesBackend_NET8_FULL\\AgenciaViajes.API\\appsettings.json",
+              "RelativeDocumentMoniker": "AgenciaViajes.API\\appsettings.json",
+              "ToolTip": "C:\\Users\\carlos\\Documents\\Proyecto Inter Viajes\\Proyect-Web-Group4-Agencia-Viajes-Honduras\\AgenciaViajesBackend_NET8_FULL\\AgenciaViajes.API\\appsettings.json",
+              "RelativeToolTip": "AgenciaViajes.API\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-08-27T03:08:15.135Z",
               "EditorCaption": ""
             }
           ]

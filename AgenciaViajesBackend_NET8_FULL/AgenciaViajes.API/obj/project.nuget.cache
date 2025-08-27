@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "EqX5cG+Nq5Y=",
+  "dgSpecHash": "8w0Z6UyvF/Y=",
   "success": true,
   "projectFilePath": "C:\\Users\\carlos\\Documents\\Proyecto Inter Viajes\\Proyect-Web-Group4-Agencia-Viajes-Honduras\\AgenciaViajesBackend_NET8_FULL\\AgenciaViajes.API\\AgenciaViajes.API.csproj",
   "expectedPackageFiles": [
@@ -36,6 +36,7 @@
     "C:\\Users\\carlos\\.nuget\\packages\\microsoft.openapi\\1.6.23\\microsoft.openapi.1.6.23.nupkg.sha512",
     "C:\\Users\\carlos\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\carlos\\.nuget\\packages\\swashbuckle.aspnetcore\\9.0.3\\swashbuckle.aspnetcore.9.0.3.nupkg.sha512",
+    "C:\\Users\\carlos\\.nuget\\packages\\swashbuckle.aspnetcore.annotations\\9.0.3\\swashbuckle.aspnetcore.annotations.9.0.3.nupkg.sha512",
     "C:\\Users\\carlos\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\9.0.3\\swashbuckle.aspnetcore.swagger.9.0.3.nupkg.sha512",
     "C:\\Users\\carlos\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\9.0.3\\swashbuckle.aspnetcore.swaggergen.9.0.3.nupkg.sha512",
     "C:\\Users\\carlos\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\9.0.3\\swashbuckle.aspnetcore.swaggerui.9.0.3.nupkg.sha512",
