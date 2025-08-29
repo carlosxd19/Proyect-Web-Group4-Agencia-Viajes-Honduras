@@ -1,10 +1,23 @@
+using Google.Cloud.Firestore;
+
 namespace AgenciaViajes.API.Models;
 
+[FirestoreData]
 public class User
 {
+    [FirestoreDocumentId]
     public string Id { get; set; } = Guid.NewGuid().ToString();
-    public string Email { get; set; } = default!;
+
+    [FirestoreProperty]
+    public string Email { get; set; } = "";
+
+    [FirestoreProperty]
     public string Name { get; set; } = "";
-    public string PasswordHash { get; set; } = default!;
-    public DateTime RegisteredAt { get; set; } = DateTime.UtcNow;
+
+    [FirestoreProperty]
+    public string PasswordHash { get; set; } = "";
+
+    [FirestoreProperty]
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 }
+    

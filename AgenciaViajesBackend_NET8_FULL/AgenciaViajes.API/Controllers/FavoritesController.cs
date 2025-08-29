@@ -1,7 +1,6 @@
 using System.Security.Claims;
 using AgenciaViajes.API.Models;
 using AgenciaViajes.API.Services;
-using Google.Cloud.Firestore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,43 +11,29 @@ namespace AgenciaViajes.API.Controllers;
 [Authorize]
 public class FavoritesController : ControllerBase
 {
-    private readonly FirebaseService _fb;
-    public FavoritesController(FirebaseService fb) => _fb = fb;
+    private readonly FavoriteService _service;
+    public FavoritesController(FavoriteService service) => _service = service;
 
-    private string UserId => User.FindFirstValue(ClaimTypes.NameIdentifier) ?? User.FindFirstValue("sub")!;
+    private string UserId => User.FindFirstValue(ClaimTypes.NameIdentifier)!;
 
     [HttpGet]
-    public async Task<IActionResult> Get()
+    public async Task<IActionResult> GetAll()
     {
-        var ss = await _fb.Favorites.WhereEqualTo("UserId", UserId).GetSnapshotAsync();
-        var list = ss.Documents.Select(d => d.ConvertTo<FavoriteCountry>()).OrderByDescending(f => f.AddedAt).ToList();
-        return Ok(list);
+        var favs = await _service.GetByUser(UserId);
+        return Ok(favs);
     }
 
     [HttpPost("{countryCode}")]
     public async Task<IActionResult> Add(string countryCode)
     {
-        // prevent duplicates
-        var existing = await _fb.Favorites
-            .WhereEqualTo("UserId", UserId)
-            .WhereEqualTo("CountryCode", countryCode)
-            .Limit(1).GetSnapshotAsync();
-        if (existing.Documents.Count > 0) return Conflict("Ya es favorito.");
-
-        var fav = new FavoriteCountry { UserId = UserId, CountryCode = countryCode };
-        await _fb.Favorites.Document(fav.Id).SetAsync(fav);
-        return CreatedAtAction(nameof(Get), new { id = fav.Id }, fav);
+        var fav = await _service.Add(UserId, countryCode);
+        return Ok(fav);
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> Remove(string id)
     {
-        var docRef = _fb.Favorites.Document(id);
-        var snap = await docRef.GetSnapshotAsync();
-        if (!snap.Exists) return NotFound();
-        var fav = snap.ConvertTo<FavoriteCountry>();
-        if (fav.UserId != UserId) return Forbid();
-        await docRef.DeleteAsync();
+        await _service.Remove(UserId, id);
         return NoContent();
     }
 }

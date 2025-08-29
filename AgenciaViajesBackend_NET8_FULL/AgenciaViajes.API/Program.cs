@@ -121,7 +121,7 @@ builder.Services.AddSingleton(provider =>
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<FirebaseService>();
 builder.Services.AddScoped<CountryService>();
-
+builder.Services.AddScoped<FavoriteService>();
 // =====================
 // App
 // =====================

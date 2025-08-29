@@ -1,9 +1,19 @@
+using Google.Cloud.Firestore;
+
 namespace AgenciaViajes.API.Models;
 
-public class FavoriteCountry
+[FirestoreData]
+public class Favorite
 {
+    [FirestoreDocumentId]
     public string Id { get; set; } = Guid.NewGuid().ToString();
-    public string UserId { get; set; } = default!;
-    public string CountryCode { get; set; } = default!; // ISO alpha-2 or alpha-3
+
+    [FirestoreProperty]
+    public string UserId { get; set; } = "";
+
+    [FirestoreProperty]
+    public string CountryCode { get; set; } = "";
+
+    [FirestoreProperty]
     public DateTime AddedAt { get; set; } = DateTime.UtcNow;
 }
