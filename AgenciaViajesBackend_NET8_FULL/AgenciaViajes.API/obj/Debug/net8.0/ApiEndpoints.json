@@ -1,7 +1,7 @@
 [
   {
     "ContainingType": "Program\u002B\u003C\u003Ec",
-    "Method": "\u003C\u003CMain\u003E$\u003Eb__0_5",
+    "Method": "\u003C\u003CMain\u003E$\u003Eb__0_6",
     "RelativePath": "",
     "HttpMethod": "GET",
     "IsController": false,
@@ -25,7 +25,7 @@
     "Parameters": [
       {
         "Name": "req",
-        "Type": "AgenciaViajes.API.DTOs.LoginRequest",
+        "Type": "LoginRequest",
         "IsRequired": true
       }
     ],
@@ -61,7 +61,7 @@
     "Parameters": [
       {
         "Name": "req",
-        "Type": "AgenciaViajes.API.DTOs.RegisterRequest",
+        "Type": "RegisterRequest",
         "IsRequired": true
       }
     ],
@@ -111,7 +111,7 @@
   },
   {
     "ContainingType": "AgenciaViajes.API.Controllers.FavoritesController",
-    "Method": "Get",
+    "Method": "GetAll",
     "RelativePath": "api/Favorites",
     "HttpMethod": "GET",
     "IsController": true,
@@ -171,7 +171,7 @@
     "Parameters": [
       {
         "Name": "req",
-        "Type": "AgenciaViajes.API.DTOs.TripCreateRequest",
+        "Type": "TripCreateRequest",
         "IsRequired": true
       }
     ],
@@ -208,7 +208,7 @@
       },
       {
         "Name": "req",
-        "Type": "AgenciaViajes.API.DTOs.TripUpdateRequest",
+        "Type": "TripUpdateRequest",
         "IsRequired": true
       }
     ],

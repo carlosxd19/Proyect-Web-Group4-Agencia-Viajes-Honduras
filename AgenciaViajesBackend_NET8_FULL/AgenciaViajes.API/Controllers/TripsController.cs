@@ -2,8 +2,6 @@ using System.Security.Claims;
 using AgenciaViajes.API.DTOs;
 using AgenciaViajes.API.Models;
 using AgenciaViajes.API.Services;
-using Swashbuckle.AspNetCore.Annotations;
-using Google.Cloud.Firestore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,6 +13,7 @@ namespace AgenciaViajes.API.Controllers;
 public class TripsController : ControllerBase
 {
     private readonly FirebaseService _fb;
+
     public TripsController(FirebaseService fb) => _fb = fb;
 
     private string UserId => User.FindFirstValue(ClaimTypes.NameIdentifier) ?? User.FindFirstValue("sub")!;

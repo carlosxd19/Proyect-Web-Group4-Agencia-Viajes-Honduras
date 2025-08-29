@@ -19,6 +19,7 @@ public class UsersController : ControllerBase
         var email = User.FindFirstValue(ClaimTypes.Email)!;
         var u = await _auth.GetUserByEmail(email);
         if (u is null) return NotFound();
-        return Ok(new { u.Id, u.Email, u.Name, u.RegisteredAt });
+        return Ok(new { u.Id, u.Email, u.Name, u.CreatedAt });
+
     }
 }

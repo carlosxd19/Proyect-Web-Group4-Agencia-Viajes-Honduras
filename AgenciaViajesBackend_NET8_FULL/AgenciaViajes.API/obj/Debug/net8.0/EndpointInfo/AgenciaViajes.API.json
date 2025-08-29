@@ -435,7 +435,8 @@
             "format": "date-time"
           },
           "status": {
-            "$ref": "#/components/schemas/TripStatus"
+            "type": "string",
+            "nullable": true
           },
           "description": {
             "type": "string",
@@ -443,14 +444,6 @@
           }
         },
         "additionalProperties": false
-      },
-      "TripStatus": {
-        "enum": [
-          0,
-          1
-        ],
-        "type": "integer",
-        "format": "int32"
       },
       "TripUpdateRequest": {
         "type": "object",
@@ -472,7 +465,8 @@
             "format": "date-time"
           },
           "status": {
-            "$ref": "#/components/schemas/TripStatus"
+            "type": "string",
+            "nullable": true
           },
           "description": {
             "type": "string",
@@ -481,6 +475,19 @@
         },
         "additionalProperties": false
       }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "apiKey",
+        "description": "Introduce tu token JWT con el prefijo Bearer (ej: Bearer eyJhbGciOiJI...)",
+        "name": "Authorization",
+        "in": "header"
+      }
     }
-  }
+  },
+  "security": [
+    {
+      "Bearer": [ ]
+    }
+  ]
 }
