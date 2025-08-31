@@ -77,6 +77,7 @@ Thumbs.db
 # JSON de credenciales privadas (Firebase)
 serviceAccountKey.json
 
-# Configuración sensible
+# Configuraciï¿½n sensible
 appsettings.Development.json
 appsettings.Local.json
+node_modules
