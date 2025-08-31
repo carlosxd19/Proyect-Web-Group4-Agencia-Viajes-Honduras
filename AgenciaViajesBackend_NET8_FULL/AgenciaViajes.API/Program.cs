@@ -129,7 +129,11 @@ app.UseStaticFiles();
 // Middleware
 // =====================
 app.UseSwagger();
-app.UseSwaggerUI();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Agencia Viajes API v1");
+    c.RoutePrefix = "swagger"; // Swagger en /swagger
+});
 
 app.UseCors();
 app.UseHttpsRedirection();
