@@ -479,7 +479,7 @@
     "securitySchemes": {
       "Bearer": {
         "type": "apiKey",
-        "description": "Introduce tu token JWT con el prefijo Bearer (ej: Bearer eyJhbGciOiJI...)",
+        "description": "Introduce tu token JWT con el prefijo Bearer",
         "name": "Authorization",
         "in": "header"
       }
