@@ -17,4 +17,11 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="9.0.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\.editorconfig" />
+    <None Include="wwwroot\app.js" />
+    <None Include="wwwroot\index.html" />
+    <None Include="wwwroot\styles.css" />
+  </ItemGroup>
+
 </Project>

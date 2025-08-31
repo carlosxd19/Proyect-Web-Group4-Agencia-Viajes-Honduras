@@ -9,7 +9,7 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // =====================
-// CORS (para Angular dev server)
+// CORS
 // =====================
 builder.Services.AddCors(options =>
 {
@@ -25,21 +25,16 @@ builder.Services.AddCors(options =>
 // =====================
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-
-// Swagger con soporte de JWT
 builder.Services.AddSwaggerGen(c =>
 {
-    c.EnableAnnotations(); // ✅ permite usar [SwaggerOperation] en controladores
-
-    // 🔐 Configuración de seguridad JWT en Swagger
+    c.EnableAnnotations();
     c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
     {
         In = Microsoft.OpenApi.Models.ParameterLocation.Header,
-        Description = "Introduce tu token JWT con el prefijo Bearer (ej: Bearer eyJhbGciOiJI...)",
+        Description = "Introduce tu token JWT con el prefijo Bearer",
         Name = "Authorization",
         Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey
     });
-
     c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
     {
         {
@@ -57,7 +52,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 // =====================
-// HttpClient para RestCountries
+// HttpClient
 // =====================
 builder.Services.AddHttpClient("restcountries", c =>
 {
@@ -95,7 +90,6 @@ builder.Services.AddSingleton(provider =>
     var fb = builder.Configuration.GetSection("Firebase");
     var credentialsPath = fb["CredentialsPath"];
 
-    // ✅ Evitar inicializar FirebaseApp más de una vez
     if (FirebaseApp.DefaultInstance == null)
     {
         if (!string.IsNullOrWhiteSpace(credentialsPath))
@@ -107,7 +101,7 @@ builder.Services.AddSingleton(provider =>
         }
         else
         {
-            FirebaseApp.Create(); // usa GOOGLE_APPLICATION_CREDENTIALS env var
+            FirebaseApp.Create();
         }
     }
 
@@ -122,20 +116,30 @@ builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<FirebaseService>();
 builder.Services.AddScoped<CountryService>();
 builder.Services.AddScoped<FavoriteService>();
-// =====================
-// App
-// =====================
+
 var app = builder.Build();
 
+// =====================
+// Archivos estáticos
+// =====================
+app.UseDefaultFiles(); // sirve index.html
+app.UseStaticFiles();
+
+// =====================
+// Middleware
+// =====================
 app.UseSwagger();
 app.UseSwaggerUI();
-
-// 🚀 Redirige la raíz directamente a Swagger
-app.MapGet("/", () => Results.Redirect("/swagger"));
 
 app.UseCors();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+
+// =====================
+// Raíz opcional
+// =====================
+app.MapGet("/", () => Results.Redirect("/index.html"));
+
 app.Run();
