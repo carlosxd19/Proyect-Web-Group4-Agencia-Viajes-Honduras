@@ -1,45 +1,61 @@
 .login-container {
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    font-family: Arial, sans-serif;
+    background: linear-gradient(
+        rgba(0, 0, 0, 0.4),
+        rgba(0, 0, 0, 0.4)
+      ),
+      url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e') no-repeat center center/cover;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
   
-    h2 {
-      margin-bottom: 1rem;
-      color: #333;
-    }
+  form {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
+    width: 340px;
+    text-align: center;
+  }
   
-    form {
-      display: flex;
-      flex-direction: column;
-      width: 300px;
-      gap: 1rem;
-    }
+  h2 {
+    margin-bottom: 1.5rem;
+    font-size: 22px;
+    font-weight: bold;
+    color: #1a3c8e; /* azul corporativo */
+  }
   
-    input {
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
+  input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+  }
   
-    button {
-      padding: 10px;
-      border: none;
-      background-color: #0078d4;
-      color: white;
-      border-radius: 5px;
-      cursor: pointer;
-    }
+  input:focus {
+    outline: none;
+    border-color: #1a73e8;
+    box-shadow: 0 0 5px rgba(26, 115, 232, 0.5);
+  }
   
-    button:hover {
-      background-color: #005ea6;
-    }
+  button {
+    width: 100%;
+    padding: 12px;
+    background: #1a73e8;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: 10px;
+  }
   
-    p {
-      margin-top: 1rem;
-      color: red;
-    }
+  button:hover {
+    background: #155ab6;
   }
   
