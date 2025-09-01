@@ -1,7 +1,12 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\carlos\\Documents\\Proyecto de Viajes\\AgenciaViajesBackend_NET8_FULL\\",
-  "Documents": [],
+  "WorkspaceRootPath": "C:\\Users\\carlos\\Documents\\branch cris\\Proyect-Web-Group4-Agencia-Viajes-Honduras\\AgenciaViajesBackend_NET8_FULL\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{11111111-1111-1111-1111-111111111111}|AgenciaViajes.API\\AgenciaViajes.API.csproj|c:\\users\\carlos\\documents\\branch cris\\proyect-web-group4-agencia-viajes-honduras\\agenciaviajesbackend_net8_full\\agenciaviajes.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{11111111-1111-1111-1111-111111111111}|AgenciaViajes.API\\AgenciaViajes.API.csproj|solutionrelative:agenciaviajes.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,11 +14,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\carlos\\Documents\\branch cris\\Proyect-Web-Group4-Agencia-Viajes-Honduras\\AgenciaViajesBackend_NET8_FULL\\AgenciaViajes.API\\Program.cs",
+              "RelativeDocumentMoniker": "AgenciaViajes.API\\Program.cs",
+              "ToolTip": "C:\\Users\\carlos\\Documents\\branch cris\\Proyect-Web-Group4-Agencia-Viajes-Honduras\\AgenciaViajesBackend_NET8_FULL\\AgenciaViajes.API\\Program.cs",
+              "RelativeToolTip": "AgenciaViajes.API\\Program.cs",
+              "ViewState": "AgIAAFkAAAAAAAAAAAAuwB0AAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-01T02:51:53.919Z",
+              "EditorCaption": ""
             }
           ]
         }

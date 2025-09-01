@@ -8,7 +8,9 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// CORS (allow Angular dev server)
+// =====================
+// CORS
+// =====================
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
@@ -18,17 +20,48 @@ builder.Services.AddCors(options =>
               .AllowCredentials());
 });
 
+// =====================
+// Controllers + Swagger
+// =====================
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.EnableAnnotations();
+    c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    {
+        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+        Description = "Introduce tu token JWT con el prefijo Bearer",
+        Name = "Authorization",
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey
+    });
+    c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+    {
+        {
+            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+            {
+                Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                {
+                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });
+});
 
-// HttpClient for REST Countries
+// =====================
+// HttpClient
+// =====================
 builder.Services.AddHttpClient("restcountries", c =>
 {
     c.BaseAddress = new Uri("https://restcountries.com/");
 });
 
+// =====================
 // JWT Auth
+// =====================
 var jwtSection = builder.Configuration.GetSection("Jwt");
 var key = Encoding.UTF8.GetBytes(jwtSection["Key"]!);
 builder.Services.AddAuthentication(options =>
@@ -49,39 +82,70 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+// =====================
 // Firestore
+// =====================
 builder.Services.AddSingleton(provider =>
 {
     var fb = builder.Configuration.GetSection("Firebase");
     var credentialsPath = fb["CredentialsPath"];
-    if (!string.IsNullOrWhiteSpace(credentialsPath))
+
+    if (FirebaseApp.DefaultInstance == null)
     {
-        FirebaseApp.Create(new AppOptions
+        if (!string.IsNullOrWhiteSpace(credentialsPath))
         {
-            Credential = GoogleCredential.FromFile(credentialsPath)
-        });
+            FirebaseApp.Create(new AppOptions
+            {
+                Credential = GoogleCredential.FromFile(credentialsPath)
+            });
+        }
+        else
+        {
+            FirebaseApp.Create();
+        }
     }
-    else
-    {
-        FirebaseApp.Create(); // uses GOOGLE_APPLICATION_CREDENTIALS env var
-    }
+
     string projectId = fb["ProjectId"] ?? "";
     return new FirestoreDbBuilder { ProjectId = projectId }.Build();
 });
 
+
+
+// =====================
 // App Services
+// =====================
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<FirebaseService>();
 builder.Services.AddScoped<CountryService>();
+builder.Services.AddScoped<FavoriteService>();
 
 var app = builder.Build();
 
+// =====================
+// Archivos estáticos
+// =====================
+app.UseDefaultFiles(); // sirve index.html
+app.UseStaticFiles();
+
+// =====================
+// Middleware
+// =====================
 app.UseSwagger();
-app.UseSwaggerUI();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Agencia Viajes API v1");
+    c.RoutePrefix = "swagger"; // Swagger en /swagger
+});
 
 app.UseCors();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+
+// =====================
+// Raíz opcional
+// =====================
+app.MapGet("/", () => Results.Redirect("/index.html"));
+
 app.Run();
