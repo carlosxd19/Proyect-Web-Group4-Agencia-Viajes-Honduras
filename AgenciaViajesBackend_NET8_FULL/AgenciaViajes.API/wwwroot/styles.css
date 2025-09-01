@@ -46,7 +46,7 @@ body {
     border: none;
     border-radius: 5px;
   }
-
+/* Botón principal de login */
 button {
   width: 100%;
   padding: 10px;
@@ -61,6 +61,22 @@ button {
   button:hover {
     background-color: brown;
     color: white;
+  }
+
+/* 🔹 Botón de "Registrarse" */
+#goRegister {
+  background-color: transparent; /* transparente con borde */
+  color: #FFD700;
+  border: 2px solid #FFD700;
+  font-weight: bold;
+  margin-top: 15px;
+  transition: all 0.3s ease;
+}
+
+  #goRegister:hover {
+    background-color: darkblue;
+    color: white;
+    border-color: #FFD700;
   }
 
 #message {

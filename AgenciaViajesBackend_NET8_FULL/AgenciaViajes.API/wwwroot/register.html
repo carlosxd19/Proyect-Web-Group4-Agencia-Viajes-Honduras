@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro - Agencia Viajes</title>
+  <link rel="icon" href="avh.png" type="image/png">
+  <style>
+    /* ====== styles.css integrado ====== */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-image: url('avh2.png'); /* Cambia por tu imagen */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .login-container {
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      color: white;
+      width: 300px;
+      text-align: center;
+    }
+
+    .login-container h1 {
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+      text-align: left;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      background-color: #FFD700;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: brown;
+      color: white;
+    }
+
+    #message {
+      margin-top: 10px;
+      color: #ff6666;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h1>Registrarse</h1>
+    <form id="registerForm">
+      <div class="form-group">
+        <label for="username">Usuario</label>
+        <input type="text" id="username" placeholder="Crea tu usuario" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Correo electrónico</label>
+        <input type="email" id="email" placeholder="Ingresa tu correo" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Contraseña</label>
+        <input type="password" id="password" placeholder="Crea tu contraseña" required>
+      </div>
+      <button type="submit">Registrarse</button>
+    </form>
+    <p id="message"></p>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+
+  // 🔹 Configuración real de Firebase
+  const firebaseConfig = {
+    apiKey: "AlzaSyCHR9Q1Lkj4GyuN8-l8yb6ehGZJzmTAIQE",
+    authDomain: "interviajes-af2ed.firebaseapp.com",
+    projectId: "interviajes-af2ed",
+    storageBucket: "interviajes-af2ed.appspot.com",
+    messagingSenderId: "410729345085",
+    appId: "1:410729345085:web:a008eea84602b53bf2fa54"  <!-- este lo obtienes en Firebase Console -->
+  };
+
+  // Inicializar Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // Manejo de registro
+  document.getElementById("registerForm").addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    const username = document.getElementById("username").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const message = document.getElementById("message");
+
+    try {
+      await addDoc(collection(db, "usuarios"), {
+        username: username,
+        email: email,
+        password: password, // ⚠️ en producción NO guardar texto plano
+        fechaRegistro: new Date()
+      });
+
+      message.style.color = "lime";
+      message.textContent = "✅ Registro exitoso";
+
+      document.getElementById("registerForm").reset();
+
+    } catch (error) {
+      console.error("Error al registrar:", error);
+      message.style.color = "red";
+      message.textContent = "❌ Error al registrar usuario";
+    }
+  });
+</script>
+
+</body>
+</html>
