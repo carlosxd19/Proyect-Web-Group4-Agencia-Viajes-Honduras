@@ -21,8 +21,22 @@
       </div>
       <button type="submit">Ingresar</button>
     </form>
+
+    <!-- 🔹 Aquí añadimos el botón para ir a registro -->
+    <button id="goRegister">
+      ¿No tienes cuenta? Regístrate
+    </button>
+
     <p id="message"></p>
   </div>
+
+  <script>
+    // Redirección al registro
+    document.getElementById("goRegister").addEventListener("click", function () {
+      window.location.href = "register.html";
+    });
+  </script>
+
   <script src="app.js"></script>
 </body>
 </html>
