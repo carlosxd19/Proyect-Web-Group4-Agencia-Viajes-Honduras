@@ -1,4 +1,4 @@
-using AgenciaViajes.API.Services;
+﻿using AgenciaViajes.API.Services;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 using Google.Cloud.Firestore;
@@ -69,10 +69,26 @@ builder.Services.AddSingleton(provider =>
     return new FirestoreDbBuilder { ProjectId = projectId }.Build();
 });
 
+// 🔹 Inicializar Firebase
+if (FirebaseApp.DefaultInstance == null)
+{
+    FirebaseApp.Create(new AppOptions()
+    {
+        Credential = GoogleCredential.FromFile("config/interviajes-af2ed-firebase-adminsdk-fbsvc-4c0e09c3db.json")
+    });
+}
+
+// 🔹 Config Firestore
+builder.Services.AddSingleton<FirestoreDb>(sp =>
+{
+    return FirestoreDb.Create("interviajes-af2ed");
+});
+
 // App Services
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<FirebaseService>();
 builder.Services.AddScoped<CountryService>();
+builder.Services.AddSingleton<FirebaseUserService>();
 
 var app = builder.Build();
 

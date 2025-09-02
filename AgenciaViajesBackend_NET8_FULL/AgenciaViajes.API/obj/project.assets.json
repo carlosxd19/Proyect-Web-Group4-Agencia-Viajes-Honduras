@@ -1757,6 +1757,7 @@
     "net8.0": [
       "BCrypt.Net-Next >= 4.0.3",
       "FirebaseAdmin >= 3.3.0",
+      "Google.Apis.Auth >= 1.68.0",
       "Google.Cloud.Firestore >= 3.10.0",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 8.0.8",
       "Swashbuckle.AspNetCore >= 9.0.3",
@@ -1770,11 +1771,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\carlos\\Documents\\Proyecto de Viajes\\AgenciaViajesBackend_NET8_FULL\\AgenciaViajes.API\\AgenciaViajes.API.csproj",
+      "projectUniqueName": "C:\\Users\\carlos\\Documents\\branch walter\\Proyect-Web-Group4-Agencia-Viajes-Honduras\\AgenciaViajesBackend_NET8_FULL\\AgenciaViajes.API\\AgenciaViajes.API.csproj",
       "projectName": "AgenciaViajes.API",
-      "projectPath": "C:\\Users\\carlos\\Documents\\Proyecto de Viajes\\AgenciaViajesBackend_NET8_FULL\\AgenciaViajes.API\\AgenciaViajes.API.csproj",
+      "projectPath": "C:\\Users\\carlos\\Documents\\branch walter\\Proyect-Web-Group4-Agencia-Viajes-Honduras\\AgenciaViajesBackend_NET8_FULL\\AgenciaViajes.API\\AgenciaViajes.API.csproj",
       "packagesPath": "C:\\Users\\carlos\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\carlos\\Documents\\Proyecto de Viajes\\AgenciaViajesBackend_NET8_FULL\\AgenciaViajes.API\\obj\\",
+      "outputPath": "C:\\Users\\carlos\\Documents\\branch walter\\Proyect-Web-Group4-Agencia-Viajes-Honduras\\AgenciaViajesBackend_NET8_FULL\\AgenciaViajes.API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -1820,6 +1821,10 @@
           "FirebaseAdmin": {
             "target": "Package",
             "version": "[3.3.0, )"
+          },
+          "Google.Apis.Auth": {
+            "target": "Package",
+            "version": "[1.68.0, )"
           },
           "Google.Cloud.Firestore": {
             "target": "Package",
