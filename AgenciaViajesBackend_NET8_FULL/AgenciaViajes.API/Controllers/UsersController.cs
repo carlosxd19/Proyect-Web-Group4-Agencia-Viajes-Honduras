@@ -7,19 +7,35 @@ namespace AgenciaViajes.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize]
 public class UsersController : ControllerBase
 {
-    private readonly AuthService _auth;
-    public UsersController(AuthService auth) => _auth = auth;
+    private readonly FirebaseUserService _firebaseUserService;
 
+    public UsersController(FirebaseUserService firebaseUserService)
+    {
+        _firebaseUserService = firebaseUserService;
+    }
+
+    // Registro de usuario en Firebase
+    [HttpPost("register")]
+    [AllowAnonymous]
+    public async Task<IActionResult> Register(string email, string password, string name)
+    {
+        var user = await _firebaseUserService.CreateUserAsync(email, password, name);
+        return Ok(new { user.Uid, user.Email, user.DisplayName });
+    }
+
+    // Perfil del usuario autenticado
     [HttpGet("profile")]
+    [Authorize]
     public async Task<IActionResult> Profile()
     {
-        var email = User.FindFirstValue(ClaimTypes.Email)!;
-        var u = await _auth.GetUserByEmail(email);
-        if (u is null) return NotFound();
-        return Ok(new { u.Id, u.Email, u.Name, u.CreatedAt });
+        var email = User.FindFirstValue(ClaimTypes.Email);
+        if (email is null) return Unauthorized();
 
+        var u = await _firebaseUserService.GetUserByEmail(email);
+        if (u is null) return NotFound();
+
+        return Ok(new { u.Uid, u.Email, u.DisplayName });
     }
 }
