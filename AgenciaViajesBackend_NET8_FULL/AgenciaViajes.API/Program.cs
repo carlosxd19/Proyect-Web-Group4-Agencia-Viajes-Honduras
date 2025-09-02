@@ -88,27 +88,22 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddSingleton(provider =>
 {
     var fb = builder.Configuration.GetSection("Firebase");
-    var credentialsPath = fb["CredentialsPath"];
+    var credentialsPath = fb["CredentialsPath"]
+                          ?? "config/interviajes-af2ed-firebase-adminsdk-fbsvc-4c0e09c3db.json";
 
+    // 🔹 Inicializar Firebase si aún no está activo
     if (FirebaseApp.DefaultInstance == null)
     {
-        if (!string.IsNullOrWhiteSpace(credentialsPath))
+        FirebaseApp.Create(new AppOptions
         {
-            FirebaseApp.Create(new AppOptions
-            {
-                Credential = GoogleCredential.FromFile(credentialsPath)
-            });
-        }
-        else
-        {
-            FirebaseApp.Create();
-        }
+            Credential = GoogleCredential.FromFile(credentialsPath)
+        });
     }
 
-    string projectId = fb["ProjectId"] ?? "";
-    return new FirestoreDbBuilder { ProjectId = projectId }.Build();
+    // 🔹 Conexión a Firestore
+    string projectId = fb["ProjectId"] ?? "interviajes-af2ed";
+    return FirestoreDb.Create(projectId);
 });
-
 
 
 // =====================
