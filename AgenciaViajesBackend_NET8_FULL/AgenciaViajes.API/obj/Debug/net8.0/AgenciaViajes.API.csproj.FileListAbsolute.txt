@@ -137,7 +137,6 @@ C:\Users\carlos\Documents\Proyecto Inter Viajes\Proyect-Web-Group4-Agencia-Viaje
 C:\Users\carlos\Documents\Proyecto Inter Viajes\Proyect-Web-Group4-Agencia-Viajes-Honduras\AgenciaViajesBackend_NET8_FULL\AgenciaViajes.API\obj\Debug\net8.0\ref\AgenciaViajes.API.dll
 C:\Users\carlos\Documents\branch cc\Proyect-Web-Group4-Agencia-Viajes-Honduras\AgenciaViajesBackend_NET8_FULL\AgenciaViajes.API\bin\Debug\net8.0\appsettings.json
 C:\Users\carlos\Documents\branch cc\Proyect-Web-Group4-Agencia-Viajes-Honduras\AgenciaViajesBackend_NET8_FULL\AgenciaViajes.API\bin\Debug\net8.0\config\interviajes-af2ed-firebase-adminsdk-fbsvc-41f3a94c2f.json
-C:\Users\carlos\Documents\branch cc\Proyect-Web-Group4-Agencia-Viajes-Honduras\AgenciaViajesBackend_NET8_FULL\AgenciaViajes.API\bin\Debug\net8.0\config\interviajes-af2ed-firebase-adminsdk-fbsvc-4c0e09c3db.json
 C:\Users\carlos\Documents\branch cc\Proyect-Web-Group4-Agencia-Viajes-Honduras\AgenciaViajesBackend_NET8_FULL\AgenciaViajes.API\bin\Debug\net8.0\AgenciaViajes.API.staticwebassets.runtime.json
 C:\Users\carlos\Documents\branch cc\Proyect-Web-Group4-Agencia-Viajes-Honduras\AgenciaViajesBackend_NET8_FULL\AgenciaViajes.API\bin\Debug\net8.0\AgenciaViajes.API.staticwebassets.endpoints.json
 C:\Users\carlos\Documents\branch cc\Proyect-Web-Group4-Agencia-Viajes-Honduras\AgenciaViajesBackend_NET8_FULL\AgenciaViajes.API\bin\Debug\net8.0\AgenciaViajes.API.exe
@@ -206,3 +205,4 @@ C:\Users\carlos\Documents\branch cc\Proyect-Web-Group4-Agencia-Viajes-Honduras\A
 C:\Users\carlos\Documents\branch cc\Proyect-Web-Group4-Agencia-Viajes-Honduras\AgenciaViajesBackend_NET8_FULL\AgenciaViajes.API\obj\Debug\net8.0\AgenciaViajes.API.pdb
 C:\Users\carlos\Documents\branch cc\Proyect-Web-Group4-Agencia-Viajes-Honduras\AgenciaViajesBackend_NET8_FULL\AgenciaViajes.API\obj\Debug\net8.0\AgenciaViajes.API.genruntimeconfig.cache
 C:\Users\carlos\Documents\branch cc\Proyect-Web-Group4-Agencia-Viajes-Honduras\AgenciaViajesBackend_NET8_FULL\AgenciaViajes.API\obj\Debug\net8.0\ref\AgenciaViajes.API.dll
+C:\Users\carlos\Documents\branch cc\Proyect-Web-Group4-Agencia-Viajes-Honduras\AgenciaViajesBackend_NET8_FULL\AgenciaViajes.API\bin\Debug\net8.0\config\interviajes-af2ed-firebase-adminsdk-fbsvc-2e52bf391d.json

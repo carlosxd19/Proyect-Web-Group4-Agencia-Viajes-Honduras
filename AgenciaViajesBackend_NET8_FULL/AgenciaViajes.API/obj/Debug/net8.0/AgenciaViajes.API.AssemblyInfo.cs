@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AgenciaViajes.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6931c3bdded6d95cc98b308e52a066e17ca6659c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+31097d865c1b76055c39a7ccc4b3c6c8f520f0e6")]
 [assembly: System.Reflection.AssemblyProductAttribute("AgenciaViajes.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AgenciaViajes.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
