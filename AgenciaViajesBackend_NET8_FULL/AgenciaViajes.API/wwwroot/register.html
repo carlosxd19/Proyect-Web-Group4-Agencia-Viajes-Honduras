@@ -95,54 +95,47 @@
     <p id="message"></p>
   </div>
 
-  <!-- Firebase SDK -->
   <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
-  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+    import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
 
-  // 🔹 Configuración real de Firebase
-  const firebaseConfig = {
-    apiKey: "AlzaSyCHR9Q1Lkj4GyuN8-l8yb6ehGZJzmTAIQE",
-    authDomain: "interviajes-af2ed.firebaseapp.com",
-    projectId: "interviajes-af2ed",
-    storageBucket: "interviajes-af2ed.appspot.com",
-    messagingSenderId: "410729345085",
-    appId: "1:410729345085:web:a008eea84602b53bf2fa54"  <!-- este lo obtienes en Firebase Console -->
-  };
+    const firebaseConfig = {
+      apiKey: "AIzaSyXXXXXX_tu_api_key_real",
+      authDomain: "interviajes-af2ed.firebaseapp.com",
+      databaseURL: "https://console.firebase.google.com/project/interviajes-af2ed/firestore/databases/-default-/data",
+      projectId: "interviajes-af2ed",
+      storageBucket: "interviajes-af2ed.appspot.com",
+      messagingSenderId: "410729345085",
+      appId: "1:410729345085:web:a008eea84602b53bf2fa54"
+    };
 
-  // Inicializar Firebase
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const database = getDatabase(app);
 
-  // Manejo de registro
-  document.getElementById("registerForm").addEventListener("submit", async function (event) {
-    event.preventDefault();
+    function registerUser() {
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const message = document.getElementById('message');
 
-    const username = document.getElementById("username").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value.trim();
-    const message = document.getElementById("message");
-
-    try {
-      await addDoc(collection(db, "usuarios"), {
-        username: username,
-        email: email,
-        password: password, // ⚠️ en producción NO guardar texto plano
-        fechaRegistro: new Date()
-      });
-
-      message.style.color = "lime";
-      message.textContent = "✅ Registro exitoso";
-
-      document.getElementById("registerForm").reset();
-
-    } catch (error) {
-      console.error("Error al registrar:", error);
-      message.style.color = "red";
-      message.textContent = "❌ Error al registrar usuario";
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          // Guardar info adicional en Realtime Database
+          set(ref(database, 'users/' + user.uid), {
+            name: name,
+            email: email
+          });
+          message.style.color = 'lightgreen';
+          message.innerText = `Usuario registrado: ${user.email}`;
+        })
+        .catch((error) => {
+          message.style.color = 'red';
+          message.innerText = `Error: ${error.message}`;
+        });
     }
-  });
-</script>
-
+  </script>
 </body>
 </html>

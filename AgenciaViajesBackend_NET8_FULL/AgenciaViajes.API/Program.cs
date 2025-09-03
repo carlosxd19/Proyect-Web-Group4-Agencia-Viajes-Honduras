@@ -89,20 +89,27 @@ builder.Services.AddSingleton(provider =>
 {
     var fb = builder.Configuration.GetSection("Firebase");
     var credentialsPath = fb["CredentialsPath"]
-                          ?? "config/interviajes-af2ed-firebase-adminsdk-fbsvc-4c0e09c3db.json";
+                          ?? "config/interviajes-af2ed-firebase-adminsdk-fbsvc-41f3a94c2f.json";
 
-    // 🔹 Inicializar Firebase si aún no está activo
+    // 🔹 Cargar credenciales manualmente
+    var credential = GoogleCredential.FromFile(credentialsPath);
+
     if (FirebaseApp.DefaultInstance == null)
     {
         FirebaseApp.Create(new AppOptions
         {
-            Credential = GoogleCredential.FromFile(credentialsPath)
+            Credential = credential
         });
     }
 
-    // 🔹 Conexión a Firestore
     string projectId = fb["ProjectId"] ?? "interviajes-af2ed";
-    return FirestoreDb.Create(projectId);
+
+    // 🔹 Usar FirestoreDbBuilder con credenciales
+    return new FirestoreDbBuilder
+    {
+        ProjectId = projectId,
+        Credential = credential
+    }.Build();
 });
 
 
