@@ -23,7 +23,6 @@
 
   <ItemGroup>
     <None Include="wwwroot\.editorconfig" />
-    <None Include="wwwroot\styles.css" />
   </ItemGroup>
 
 </Project>
