@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="firebase-config.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FirebaseAdmin" Version="3.3.0" />
     <PackageReference Include="Google.Cloud.Firestore" Version="3.10.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />
@@ -19,8 +23,6 @@
 
   <ItemGroup>
     <None Include="wwwroot\.editorconfig" />
-    <None Include="wwwroot\app.js" />
-    <None Include="wwwroot\index.html" />
     <None Include="wwwroot\styles.css" />
   </ItemGroup>
 
