@@ -98,44 +98,47 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
     import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
-    import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyXXXXXX_tu_api_key_real",
-      authDomain: "interviajes-af2ed.firebaseapp.com",
-      databaseURL: "https://console.firebase.google.com/project/interviajes-af2ed/firestore/databases/-default-/data",
-      projectId: "interviajes-af2ed",
-      storageBucket: "interviajes-af2ed.appspot.com",
-      messagingSenderId: "410729345085",
-      appId: "1:410729345085:web:a008eea84602b53bf2fa54"
-    };
+    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+    import { firebaseConfig } from "./firebase-config.js";
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
-    const database = getDatabase(app);
+    const db = getFirestore(app);
 
-    function registerUser() {
-      const name = document.getElementById('name').value;
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
+    window.handleRegister = async function handleRegister(event) {
+      event?.preventDefault?.();
+      const name = document.getElementById('name')?.value?.trim();
+      const username = document.getElementById('username')?.value?.trim();
+      const email = document.getElementById('email')?.value?.trim();
+      const password = document.getElementById('password')?.value;
       const message = document.getElementById('message');
 
-      createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          const user = userCredential.user;
-          // Guardar info adicional en Realtime Database
-          set(ref(database, 'users/' + user.uid), {
-            name: name,
-            email: email
-          });
+      try {
+        if (!username) throw new Error("Debes indicar un nombre de usuario.");
+
+        // Crea user en Auth
+        const cred = await createUserWithEmailAndPassword(auth, email, password);
+        const uid = cred.user.uid;
+
+        // Guarda perfil
+        await setDoc(doc(db, 'users', uid), { name, email, username });
+
+        // Índice username -> email, uid (para login por username)
+        await setDoc(doc(db, 'usernames', username), { email, uid });
+
+        if (message) {
           message.style.color = 'lightgreen';
-          message.innerText = `Usuario registrado: ${user.email}`;
-        })
-        .catch((error) => {
+          message.textContent = `✅ Usuario registrado: ${username}`;
+        }
+        setTimeout(() => (window.location.href = "/"), 800);
+      } catch (err) {
+        console.error(err);
+        if (message) {
           message.style.color = 'red';
-          message.innerText = `Error: ${error.message}`;
-        });
-    }
-  </script>
+          message.textContent = `❌ ${err.code || ''} ${err.message || err}`;
+        }
+      }
+    };
+ </script>
 </body>
 </html>

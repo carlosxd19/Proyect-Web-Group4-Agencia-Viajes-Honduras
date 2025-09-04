@@ -1,10 +1,22 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\carlos\\Documents\\branch cc\\Proyect-Web-Group4-Agencia-Viajes-Honduras\\AgenciaViajesBackend_NET8_FULL\\",
+  "WorkspaceRootPath": "C:\\Users\\ferna\\Documents\\branch carlos\\Proyect-Web-Group4-Agencia-Viajes-Honduras\\AgenciaViajesBackend_NET8_FULL\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{11111111-1111-1111-1111-111111111111}|AgenciaViajes.API\\AgenciaViajes.API.csproj|c:\\users\\carlos\\documents\\branch cc\\proyect-web-group4-agencia-viajes-honduras\\agenciaviajesbackend_net8_full\\agenciaviajes.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{11111111-1111-1111-1111-111111111111}|AgenciaViajes.API\\AgenciaViajes.API.csproj|solutionrelative:agenciaviajes.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{11111111-1111-1111-1111-111111111111}|AgenciaViajes.API\\AgenciaViajes.API.csproj|c:\\users\\ferna\\documents\\branch carlos\\proyect-web-group4-agencia-viajes-honduras\\agenciaviajesbackend_net8_full\\agenciaviajes.api\\wwwroot\\app.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{11111111-1111-1111-1111-111111111111}|AgenciaViajes.API\\AgenciaViajes.API.csproj|solutionrelative:agenciaviajes.api\\wwwroot\\app.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{11111111-1111-1111-1111-111111111111}|AgenciaViajes.API\\AgenciaViajes.API.csproj|c:\\users\\ferna\\documents\\branch carlos\\proyect-web-group4-agencia-viajes-honduras\\agenciaviajesbackend_net8_full\\agenciaviajes.api\\wwwroot\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{11111111-1111-1111-1111-111111111111}|AgenciaViajes.API\\AgenciaViajes.API.csproj|solutionrelative:agenciaviajes.api\\wwwroot\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{11111111-1111-1111-1111-111111111111}|AgenciaViajes.API\\AgenciaViajes.API.csproj|c:\\users\\ferna\\documents\\branch carlos\\proyect-web-group4-agencia-viajes-honduras\\agenciaviajesbackend_net8_full\\agenciaviajes.api\\wwwroot\\register.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{11111111-1111-1111-1111-111111111111}|AgenciaViajes.API\\AgenciaViajes.API.csproj|solutionrelative:agenciaviajes.api\\wwwroot\\register.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{11111111-1111-1111-1111-111111111111}|AgenciaViajes.API\\AgenciaViajes.API.csproj|c:\\users\\ferna\\documents\\branch carlos\\proyect-web-group4-agencia-viajes-honduras\\agenciaviajesbackend_net8_full\\agenciaviajes.api\\wwwroot\\styles.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{11111111-1111-1111-1111-111111111111}|AgenciaViajes.API\\AgenciaViajes.API.csproj|solutionrelative:agenciaviajes.api\\wwwroot\\styles.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     }
   ],
   "DocumentGroupContainers": [
@@ -23,14 +35,53 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\carlos\\Documents\\branch cc\\Proyect-Web-Group4-Agencia-Viajes-Honduras\\AgenciaViajesBackend_NET8_FULL\\AgenciaViajes.API\\Program.cs",
-              "RelativeDocumentMoniker": "AgenciaViajes.API\\Program.cs",
-              "ToolTip": "C:\\Users\\carlos\\Documents\\branch cc\\Proyect-Web-Group4-Agencia-Viajes-Honduras\\AgenciaViajesBackend_NET8_FULL\\AgenciaViajes.API\\Program.cs",
-              "RelativeToolTip": "AgenciaViajes.API\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFsAAABZAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-03T04:32:06.536Z",
+              "Title": "app.js",
+              "DocumentMoniker": "C:\\Users\\ferna\\Documents\\branch carlos\\Proyect-Web-Group4-Agencia-Viajes-Honduras\\AgenciaViajesBackend_NET8_FULL\\AgenciaViajes.API\\wwwroot\\app.js",
+              "RelativeDocumentMoniker": "AgenciaViajes.API\\wwwroot\\app.js",
+              "ToolTip": "C:\\Users\\ferna\\Documents\\branch carlos\\Proyect-Web-Group4-Agencia-Viajes-Honduras\\AgenciaViajesBackend_NET8_FULL\\AgenciaViajes.API\\wwwroot\\app.js",
+              "RelativeToolTip": "AgenciaViajes.API\\wwwroot\\app.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-09-04T03:13:27.46Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "register.html",
+              "DocumentMoniker": "C:\\Users\\ferna\\Documents\\branch carlos\\Proyect-Web-Group4-Agencia-Viajes-Honduras\\AgenciaViajesBackend_NET8_FULL\\AgenciaViajes.API\\wwwroot\\register.html",
+              "RelativeDocumentMoniker": "AgenciaViajes.API\\wwwroot\\register.html",
+              "ToolTip": "C:\\Users\\ferna\\Documents\\branch carlos\\Proyect-Web-Group4-Agencia-Viajes-Honduras\\AgenciaViajesBackend_NET8_FULL\\AgenciaViajes.API\\wwwroot\\register.html",
+              "RelativeToolTip": "AgenciaViajes.API\\wwwroot\\register.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-09-04T03:11:12.596Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "styles.css",
+              "DocumentMoniker": "C:\\Users\\ferna\\Documents\\branch carlos\\Proyect-Web-Group4-Agencia-Viajes-Honduras\\AgenciaViajesBackend_NET8_FULL\\AgenciaViajes.API\\wwwroot\\styles.css",
+              "RelativeDocumentMoniker": "AgenciaViajes.API\\wwwroot\\styles.css",
+              "ToolTip": "C:\\Users\\ferna\\Documents\\branch carlos\\Proyect-Web-Group4-Agencia-Viajes-Honduras\\AgenciaViajesBackend_NET8_FULL\\AgenciaViajes.API\\wwwroot\\styles.css",
+              "RelativeToolTip": "AgenciaViajes.API\\wwwroot\\styles.css",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-09-04T03:07:08.904Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "index.html",
+              "DocumentMoniker": "C:\\Users\\ferna\\Documents\\branch carlos\\Proyect-Web-Group4-Agencia-Viajes-Honduras\\AgenciaViajesBackend_NET8_FULL\\AgenciaViajes.API\\wwwroot\\index.html",
+              "RelativeDocumentMoniker": "AgenciaViajes.API\\wwwroot\\index.html",
+              "ToolTip": "C:\\Users\\ferna\\Documents\\branch carlos\\Proyect-Web-Group4-Agencia-Viajes-Honduras\\AgenciaViajesBackend_NET8_FULL\\AgenciaViajes.API\\wwwroot\\index.html",
+              "RelativeToolTip": "AgenciaViajes.API\\wwwroot\\index.html",
+              "ViewState": "AgIAAKIAAAAAAAAAAAAAABMAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-09-04T03:02:03.043Z",
               "EditorCaption": ""
             }
           ]

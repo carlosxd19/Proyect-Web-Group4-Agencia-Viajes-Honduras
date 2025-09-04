@@ -1,42 +1,182 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login - Agencia Viajes</title>
-  <link rel="stylesheet" href="styles.css">
-  <link rel="icon" href="avh.png" type="image/png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login — Agencia de Viajes</title>
+  <link rel="icon" href="avh.png" type="image/png" />
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #111827;
+      --muted: #94a3b8;
+      --text: #e5e7eb;
+      --accent: #22c55e;
+      --accent-2: #0ea5e9;
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Inter,Arial,sans-serif;
+      color: var(--text);
+      min-height: 100dvh;
+      display: grid;
+      place-items: center;
+      background: radial-gradient(1200px 800px at 75% -10%,#0ea5e920,transparent), url('img.png') center/cover fixed no-repeat, var(--bg);
+    }
+
+    .card {
+      width: 100%;
+      max-width: 420px;
+      background: linear-gradient(180deg,#111827 0 60%,#0b1220 100%);
+      border: 1px solid #1f2937;
+      border-radius: 18px;
+      padding: 28px 24px;
+      box-shadow: 0 20px 60px #0007;
+      backdrop-filter: saturate(130%) blur(2px);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-weight: 700;
+      font-size: 1.6rem
+    }
+
+    p.sub {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: .95rem
+    }
+
+    .form-group {
+      margin: 12px 0
+    }
+
+    label {
+      display: block;
+      margin: 0 0 6px;
+      color: #cbd5e1;
+      font-size: .9rem
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid #334155;
+      background: #0b1220;
+      color: #e2e8f0;
+      outline: none
+    }
+
+      input:focus {
+        border-color: var(--accent-2);
+        box-shadow: 0 0 0 3px #0ea5e933
+      }
+
+    .row {
+      display: flex;
+      gap: 10px
+    }
+
+    button {
+      width: 100%;
+      margin-top: 14px;
+      padding: 12px 14px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(90deg,var(--accent),#16a34a);
+      color: #04260f;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer
+    }
+
+      button:disabled {
+        opacity: .5;
+        cursor: not-allowed
+      }
+
+    .hint {
+      margin-top: 10px;
+      font-size: .85rem;
+      color: #93c5fd
+    }
+
+    .error {
+      display: none;
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 10px;
+      background: #7f1d1d;
+      color: #fecaca;
+      border: 1px solid #dc2626
+    }
+
+    .footer {
+      margin-top: 18px;
+      color: #94a3b8;
+      font-size: .82rem
+    }
+
+      .footer a {
+        color: #93c5fd;
+        text-decoration: none
+      }
+
+        .footer a:hover {
+          text-decoration: underline
+        }
+
+    .cred {
+      user-select: all;
+      background: #0b1220;
+      border: 1px dashed #334155;
+      border-radius: 8px;
+      padding: 8px 10px;
+      margin-top: 8px;
+      color: #cbd5e1;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace
+    }
+  </style>
 </head>
 <body>
-  <div class="login-container">
-    <h1>Iniciar Sesión</h1>
-    <form id="loginForm">
+  <main class="card">
+    <h1>Iniciar sesión</h1>
+    <p class="sub">Use el usuario predeterminado para entrar al <strong>Swagger UI</strong>.</p>
+
+    <form id="loginForm" autocomplete="on">
       <div class="form-group">
         <label for="username">Usuario</label>
-        <input type="text" id="username" placeholder="Ingresa tu usuario" required>
+        <input id="username" name="username" type="text" placeholder="usuario" required />
       </div>
       <div class="form-group">
         <label for="password">Contraseña</label>
-        <input type="password" id="password" placeholder="Ingresa tu contraseña" required>
+        <input id="password" name="password" type="password" placeholder="••••••••" required />
       </div>
-      <button type="submit">Ingresar</button>
+
+      <div class="row">
+        <button id="loginBtn" type="submit">Ingresar</button>
+      </div>
+
+      <div id="errorBox" class="error"></div>
+
+      <div class="hint">
+        Usuario por defecto:
+        <div class="cred"><strong>usuario:</strong> admin &nbsp;&nbsp; <strong>contraseña:</strong> 123456</div>
+      </div>
+
+      <div class="footer">
+        Si el login es correcto, se abrirá <code>/swagger/index.html</code>. Si no carga, confirme que su API esté ejecutándose.
+      </div>
     </form>
+  </main>
 
-    <!-- 🔹 Aquí añadimos el botón para ir a registro -->
-    <button id="goRegister">
-      ¿No tienes cuenta? Regístrate
-    </button>
-
-    <p id="message"></p>
-  </div>
-
-  <script>
-    // Redirección al registro
-    document.getElementById("goRegister").addEventListener("click", function () {
-      window.location.href = "register.html";
-    });
-  </script>
-
-  <script src="app.js"></script>
+  <!-- Carga app.js como módulo para poder importar Firebase desde CDN -->
+  <script type="module" src="./app.js"></script>
 </body>
 </html>
