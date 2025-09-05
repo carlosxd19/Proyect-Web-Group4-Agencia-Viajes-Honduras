@@ -1,5 +1,10 @@
-namespace AgenciaViajes.API.DTOs;
-
-public record RegisterRequest(string Email, string Password, string Name);
-public record LoginRequest(string Email, string Password);
-public record AuthResponse(string Token, string UserId, string Email, string Name);
+namespace AgenciaViajes.API.DTOs
+{
+    public class AuthResponse
+    {
+        public string ClientId { get; set; } = default!;
+        public string FullName { get; set; } = default!;
+        public string Email { get; set; } = default!;
+        public string? DestinationCountryCode { get; set; }
+    }
+}

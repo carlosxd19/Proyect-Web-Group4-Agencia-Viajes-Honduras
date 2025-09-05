@@ -1,87 +1,111 @@
-using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using AgenciaViajes.API.DTOs;
 using AgenciaViajes.API.Models;
 using AgenciaViajes.API.Services;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 
-namespace AgenciaViajes.API.Controllers;
-
-[ApiController]
-[Route("api/[controller]")]
-[Authorize]
-public class TripsController : ControllerBase
+namespace AgenciaViajes.API.Controllers
 {
-    private readonly FirebaseService _fb;
-
-    public TripsController(FirebaseService fb) => _fb = fb;
-
-    private string UserId => User.FindFirstValue(ClaimTypes.NameIdentifier) ?? User.FindFirstValue("sub")!;
-
-    [HttpGet]
-    public async Task<IActionResult> GetMyTrips()
+    [ApiController]
+    [Route("api/[controller]")]
+    public class ViajesController : ControllerBase
     {
-        var ss = await _fb.Trips.WhereEqualTo("UserId", UserId).GetSnapshotAsync();
-        var trips = ss.Documents.Select(d => d.ConvertTo<Trip>()).OrderBy(t => t.StartDate).ToList();
-        return Ok(trips);
-    }
+        private readonly ITripService _svc;
+        public ViajesController(ITripService svc) => _svc = svc;
 
-    [HttpPost]
-    public async Task<IActionResult> Create(TripCreateRequest req)
-    {
-        var trip = new Trip
+        [HttpGet]
+        [SwaggerOperation(Summary = "Lista viajes (filtro opcional por clientId)")]
+        public async Task<ActionResult<IEnumerable<TripDto>>> List([FromQuery] string? clientId = null)
         {
-            UserId = UserId,
-            Title = req.Title,
-            CountryCode = req.CountryCode,
-            StartDate = req.StartDate,
-            EndDate = req.EndDate,
-            Status = req.Status,
-            Description = req.Description
+            var list = string.IsNullOrWhiteSpace(clientId) ? await _svc.ListAsync() : await _svc.ListByClientAsync(clientId);
+            return Ok(list.Select(Map).ToArray());
+        }
+
+        [HttpPost]
+        [SwaggerOperation(Summary = "Crear viaje (país, ciudad, estancia, tipo pasajero, fecha)")]
+        public async Task<ActionResult<TripDto>> Create([FromBody] TripCreateRequest req)
+        {
+            var saved = await _svc.CreateAsync(new Trip
+            {
+                ClientId = req.ClientId,
+                CountryCode = req.CountryCode.ToUpper(),
+                City = req.City.Trim(),
+                StayDays = req.StayDays,
+                PassengerType = req.PassengerType,
+                TravelDate = req.TravelDate
+            });
+            return CreatedAtAction(nameof(List), new { id = saved.Id }, Map(saved));
+        }
+
+        private static TripDto Map(Trip t) => new TripDto
+        {
+            Id = t.Id,
+            ClientId = t.ClientId,
+            CountryCode = t.CountryCode,
+            City = t.City,
+            StayDays = t.StayDays,
+            PassengerType = t.PassengerType.ToString(),
+            TravelDate = t.TravelDate,
+            Status = t.Status.ToString(),
+            CreatedAt = t.CreatedAt
         };
-        await _fb.Trips.Document(trip.Id).SetAsync(trip);
-        return CreatedAtAction(nameof(GetById), new { id = trip.Id }, trip);
     }
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(string id)
+    // /api/Trips/{id} GET/PUT/DELETE (como ya tienes)
+    [ApiController]
+    [Route("api/[controller]")]
+    public class TripsController : ControllerBase
     {
-        var doc = await _fb.Trips.Document(id).GetSnapshotAsync();
-        if (!doc.Exists) return NotFound();
-        var t = doc.ConvertTo<Trip>();
-        if (t.UserId != UserId) return Forbid();
-        return Ok(t);
-    }
+        private readonly ITripService _svc;
+        public TripsController(ITripService svc) => _svc = svc;
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Update(string id, TripUpdateRequest req)
-    {
-        var docRef = _fb.Trips.Document(id);
-        var snap = await docRef.GetSnapshotAsync();
-        if (!snap.Exists) return NotFound();
-        var t = snap.ConvertTo<Trip>();
-        if (t.UserId != UserId) return Forbid();
+        [HttpGet("{id}")]
+        public async Task<ActionResult<TripDto>> Get(string id)
+        {
+            var t = await _svc.GetAsync(id);
+            return t is null ? NotFound() : Ok(new TripDto
+            {
+                Id = t.Id,
+                ClientId = t.ClientId,
+                CountryCode = t.CountryCode,
+                City = t.City,
+                StayDays = t.StayDays,
+                PassengerType = t.PassengerType.ToString(),
+                TravelDate = t.TravelDate,
+                Status = t.Status.ToString(),
+                CreatedAt = t.CreatedAt
+            });
+        }
 
-        t.Title = req.Title;
-        t.CountryCode = req.CountryCode;
-        t.StartDate = req.StartDate;
-        t.EndDate = req.EndDate;
-        t.Status = req.Status;
-        t.Description = req.Description;
+        [HttpPut("{id}")]
+        public async Task<ActionResult<TripDto>> Update(string id, [FromBody] TripUpdateRequest req)
+        {
+            var updated = await _svc.UpdateAsync(new Trip
+            {
+                Id = id,
+                CountryCode = req.CountryCode.ToUpper(),
+                City = req.City.Trim(),
+                StayDays = req.StayDays,
+                PassengerType = req.PassengerType,
+                TravelDate = req.TravelDate,
+                Status = req.Status
+            });
+            return updated is null ? NotFound() : Ok(new TripDto
+            {
+                Id = updated.Id,
+                ClientId = updated.ClientId,
+                CountryCode = updated.CountryCode,
+                City = updated.City,
+                StayDays = updated.StayDays,
+                PassengerType = updated.PassengerType.ToString(),
+                TravelDate = updated.TravelDate,
+                Status = updated.Status.ToString(),
+                CreatedAt = updated.CreatedAt
+            });
+        }
 
-        await docRef.SetAsync(t);
-        return NoContent();
-    }
-
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(string id)
-    {
-        var docRef = _fb.Trips.Document(id);
-        var snap = await docRef.GetSnapshotAsync();
-        if (!snap.Exists) return NotFound();
-        var t = snap.ConvertTo<Trip>();
-        if (t.UserId != UserId) return Forbid();
-        await docRef.DeleteAsync();
-        return NoContent();
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(string id)
+            => (await _svc.DeleteAsync(id)) ? NoContent() : NotFound();
     }
 }

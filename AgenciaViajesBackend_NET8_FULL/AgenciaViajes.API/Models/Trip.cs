@@ -1,31 +1,34 @@
-using Google.Cloud.Firestore;
+﻿using Google.Cloud.Firestore;
+using System;
 
-namespace AgenciaViajes.API.Models;
+// Alias para evitar conflicto entre el nombre del tipo y la propiedad
+using PType = AgenciaViajes.API.Models.PassengerType;
+using TStatus = AgenciaViajes.API.Models.TripStatus;
 
-[FirestoreData]
-public class Trip
+namespace AgenciaViajes.API.Models
 {
-    [FirestoreDocumentId]
-    public string Id { get; set; } = Guid.NewGuid().ToString();
+    [FirestoreData]
+    public class Trip
+    {
+        [FirestoreProperty] public string Id { get; set; } = Guid.NewGuid().ToString();
 
-    [FirestoreProperty]
-    public string UserId { get; set; } = "";
+        // id del cliente (uid/guid)
+        [FirestoreProperty] public string ClientId { get; set; } = default!;
 
-    [FirestoreProperty]
-    public string Title { get; set; } = "";
+        // destino
+        [FirestoreProperty] public string CountryCode { get; set; } = default!;
+        [FirestoreProperty] public string City { get; set; } = default!;
 
-    [FirestoreProperty]
-    public string CountryCode { get; set; } = "";
+        // detalles
+        [FirestoreProperty] public int StayDays { get; set; }
 
-    [FirestoreProperty]
-    public DateTime StartDate { get; set; }
+        // Guardado como number en Firestore; .NET mapea <-> enum
+        [FirestoreProperty] public PType PassengerType { get; set; } = PType.Adult;
 
-    [FirestoreProperty]
-    public DateTime EndDate { get; set; }
+        [FirestoreProperty] public DateTime? TravelDate { get; set; }
 
-    [FirestoreProperty]
-    public string Status { get; set; } = "Planned";
+        [FirestoreProperty] public TStatus Status { get; set; } = TStatus.Pending;
 
-    [FirestoreProperty]
-    public string? Description { get; set; }
+        [FirestoreProperty] public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    }
 }

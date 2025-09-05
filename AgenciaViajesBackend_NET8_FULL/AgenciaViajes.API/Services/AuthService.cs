@@ -1,107 +1,68 @@
+using System;
+using System.Threading.Tasks;
 using Google.Cloud.Firestore;
-using System.Security.Claims;
-using System.Text;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.IdentityModel.Tokens;
 using AgenciaViajes.API.DTOs;
-using BCrypt.Net;
+using AgenciaViajes.API.Models;
 
-namespace AgenciaViajes.API.Services;
-
-public class AuthService
+namespace AgenciaViajes.API.Services
 {
-    private readonly FirestoreDb _db;
-    private readonly IConfiguration _config;
-
-    public AuthService(FirestoreDb db, IConfiguration config)
+    public class AuthService : IAuthService
     {
-        _db = db;
-        _config = config;
-    }
+        private readonly FirestoreDb _db;
+        private const string COL = "usuarios";
 
-    // =========================
-    // Registrar usuario
-    // =========================
-    public async Task<UserDto> RegisterAsync(string email, string password, string name)
-    {
-        var usersRef = _db.Collection("usuarios");
+        public AuthService(FirestoreDb db) => _db = db;
 
-        // Revisar si ya existe
-        var query = await usersRef.WhereEqualTo("Email", email).GetSnapshotAsync();
-        if (query.Any())
-            throw new Exception("El correo ya está registrado");
-
-        // Hash de la contraseña
-        var hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
-
-        var newUser = new UserDto
+        public async Task<AuthResponse> RegisterAsync(RegisterRequest req)
         {
-            Id = Guid.NewGuid().ToString(),
-            Email = email,
-            Name = name,
-            Password = hashedPassword,
-            RegisteredAt = DateTime.UtcNow
-        };
+            var clientId = string.IsNullOrWhiteSpace(req.ClientId)
+                ? Guid.NewGuid().ToString()
+                : req.ClientId.Trim();
 
-        await usersRef.Document(newUser.Id).SetAsync(newUser);
+            var u = new User
+            {
+                Id = clientId,
+                FullName = req.FullName.Trim(),
+                Email = req.Email.Trim().ToLowerInvariant(),
+                PreferredCountryCode = string.IsNullOrWhiteSpace(req.DestinationCountryCode)
+                    ? null : req.DestinationCountryCode.Trim().ToUpperInvariant(),
+                CreatedAt = DateTime.UtcNow
+            };
 
-        return newUser;
-    }
+            await _db.Collection(COL).Document(u.Id).SetAsync(u, SetOptions.Overwrite);
 
-    // =========================
-    // Validar credenciales
-    // =========================
-    public async Task<UserDto> ValidateCredentialsAsync(string email, string password)
-    {
-        var usersRef = _db.Collection("usuarios");
-        var query = await usersRef.WhereEqualTo("Email", email).GetSnapshotAsync();
+            return new AuthResponse
+            {
+                ClientId = u.Id,
+                FullName = u.FullName,
+                Email = u.Email,
+                DestinationCountryCode = u.PreferredCountryCode
+            };
+        }
 
-        if (!query.Any())
-            throw new Exception("Usuario no encontrado");
-
-        var doc = query.First();
-        var user = doc.ConvertTo<UserDto>();
-
-        if (!BCrypt.Net.BCrypt.Verify(password, user.Password))
-            throw new Exception("Contraseña incorrecta");
-
-        return user;
-    }
-
-    // =========================
-    // Crear JWT
-    // =========================
-    public string CreateJwt(UserDto user)
-    {
-        var jwtSection = _config.GetSection("Jwt");
-        var key = Encoding.UTF8.GetBytes(jwtSection["Key"]!);
-
-        var claims = new[]
+        public async Task<User?> GetUserAsync(string clientId)
         {
-            new Claim(JwtRegisteredClaimNames.Sub, user.Id),
-            new Claim(JwtRegisteredClaimNames.Email, user.Email),
-            new Claim("name", user.Name)
-        };
+            if (string.IsNullOrWhiteSpace(clientId)) return null;
+            var snap = await _db.Collection(COL).Document(clientId).GetSnapshotAsync();
+            return snap.Exists ? snap.ConvertTo<User>() : null;
+        }
 
-        var token = new JwtSecurityToken(
-            issuer: jwtSection["Issuer"],
-            audience: jwtSection["Audience"],
-            claims: claims,
-            expires: DateTime.UtcNow.AddHours(3),
-            signingCredentials: new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)
-        );
+        public async Task<AuthResponse> LoginAsync(LoginRequest req)
+        {
+            var u = await GetUserAsync(req.ClientId);
+            if (u != null)
+            {
+                return new AuthResponse
+                {
+                    ClientId = u.Id,
+                    FullName = u.FullName,
+                    Email = u.Email,
+                    DestinationCountryCode = u.PreferredCountryCode
+                };
+            }
 
-        return new JwtSecurityTokenHandler().WriteToken(token);
-    }
-
-    // =========================
-    // Obtener usuario por email
-    // =========================
-    public async Task<UserDto?> GetUserByEmail(string email)
-    {
-        var usersRef = _db.Collection("usuarios");
-        var query = await usersRef.WhereEqualTo("Email", email).GetSnapshotAsync();
-
-        return query.Any() ? query.First().ConvertTo<UserDto>() : null;
+            // Eco para demo si no existe
+            return new AuthResponse { ClientId = req.ClientId, FullName = "Cliente", Email = req.Email };
+        }
     }
 }

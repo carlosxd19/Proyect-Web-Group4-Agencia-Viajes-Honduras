@@ -1,10 +1,14 @@
-namespace AgenciaViajes.API.Models;
+using Google.Cloud.Firestore;
+using System;
 
-public class CountryBasic
+namespace AgenciaViajes.API.Models
 {
-    public string Name { get; set; } = default!;
-    public string Code { get; set; } = default!; // cca2 or cca3
-    public string? Capital { get; set; }
-    public string? Region { get; set; }
-    public string? FlagPng { get; set; }
+    [FirestoreData]
+    public class CountryBasic
+    {
+        [FirestoreProperty] public string Code { get; set; } = default!; // ES, US, HN...
+        [FirestoreProperty] public string Name { get; set; } = default!;
+        [FirestoreProperty] public bool IsActive { get; set; } = true;
+        [FirestoreProperty] public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    }
 }

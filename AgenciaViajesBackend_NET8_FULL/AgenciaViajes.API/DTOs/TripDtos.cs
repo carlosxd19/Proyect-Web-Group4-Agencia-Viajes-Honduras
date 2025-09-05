@@ -1,6 +1,15 @@
-using AgenciaViajes.API.Models;
-
-namespace AgenciaViajes.API.DTOs;
-
-public record TripCreateRequest(string Title, string CountryCode, DateTime StartDate, DateTime EndDate, TripStatus Status, string? Description);
-public record TripUpdateRequest(string Title, string CountryCode, DateTime StartDate, DateTime EndDate, TripStatus Status, string? Description);
+namespace AgenciaViajes.API.DTOs
+{
+    public class TripDto
+    {
+        public string Id { get; set; } = default!;
+        public string ClientId { get; set; } = default!;
+        public string CountryCode { get; set; } = default!;
+        public string City { get; set; } = default!;
+        public int StayDays { get; set; }
+        public string PassengerType { get; set; } = default!;
+        public DateTime? TravelDate { get; set; }
+        public string Status { get; set; } = default!;
+        public DateTime CreatedAt { get; set; }
+    }
+}
