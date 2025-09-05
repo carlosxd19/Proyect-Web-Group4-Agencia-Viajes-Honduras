@@ -89,7 +89,7 @@ builder.Services.AddSingleton(provider =>
 {
     var fb = builder.Configuration.GetSection("Firebase");
     var credentialsPath = fb["CredentialsPath"]
-                          ?? "config/interviajes-af2ed-firebase-adminsdk-fbsvc-2e52bf391d.json";
+                          ?? "config/interviajes-af2ed-firebase-adminsdk-fbsvc-1bac4754c8.json";
 
     // 🔹 Cargar credenciales manualmente
     var credential = GoogleCredential.FromFile(credentialsPath);
