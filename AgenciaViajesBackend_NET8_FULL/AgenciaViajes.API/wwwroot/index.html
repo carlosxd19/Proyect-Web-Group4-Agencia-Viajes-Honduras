@@ -140,7 +140,7 @@
       padding: 8px 10px;
       margin-top: 8px;
       color: #cbd5e1;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New",monospace
     }
   </style>
 </head>
@@ -151,9 +151,11 @@
 
     <form id="loginForm" autocomplete="on">
       <div class="form-group">
-        <label for="username">Usuario</label>
-        <input id="username" name="username" type="text" placeholder="usuario" required />
+        <label for="username">Correo electrónico</label>
+        <!-- 🔹 Aquí va el cambio -->
+        <input id="username" name="username" type="email" placeholder="tu@correo.com" required />
       </div>
+
       <div class="form-group">
         <label for="password">Contraseña</label>
         <input id="password" name="password" type="password" placeholder="••••••••" required />
@@ -162,7 +164,6 @@
       <div class="row">
         <button id="loginBtn" type="submit">Ingresar</button>
       </div>
-      <!-- 🔹 Nuevo botón de registro -->
       <div class="row">
         <button type="button" onclick="window.location.href='register.html'">
           ¿Aún no tienes cuenta? Regístrate
@@ -177,12 +178,12 @@
       </div>
 
       <div class="footer">
-        Si el login es correcto, se abrirá <code>/swagger/index.html</code>. Si no carga, confirme que su API esté ejecutándose.
+        Si el login es correcto, se abrirá <code>/swagger/index.html</code>.
+        Si no carga, confirme que su API esté ejecutándose.
       </div>
     </form>
   </main>
 
-  <!-- Carga app.js como módulo para poder importar Firebase desde CDN -->
-  <script type="module" src="./app.js"></script>
+  <script type="module" src="./login.js"></script>
 </body>
 </html>
