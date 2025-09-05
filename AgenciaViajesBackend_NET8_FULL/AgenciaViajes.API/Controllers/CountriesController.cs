@@ -1,24 +1,39 @@
-using AgenciaViajes.API.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
+using AgenciaViajes.API.Models;
+using AgenciaViajes.API.Services;
 
-namespace AgenciaViajes.API.Controllers;
-
-[ApiController]
-[Route("api/[controller]")]
-public class CountriesController : ControllerBase
+namespace AgenciaViajes.API.Controllers
 {
-    private readonly CountryService _countries;
-    public CountriesController(CountryService countries) => _countries = countries;
-
-    [HttpGet]
-    public async Task<IActionResult> GetAll([FromQuery] string? name = null)
-        => Ok(await _countries.GetAllAsync(name));
-
-    [HttpGet("{code}")]
-    public async Task<IActionResult> GetByCode(string code)
+    [ApiController]
+    [Route("api/[controller]")]
+    public class CountriesController : ControllerBase
     {
-        var c = await _countries.GetByCodeAsync(code);
-        return c is null ? NotFound() : Ok(c);
+        private readonly ICountryService _svc;
+        public CountriesController(ICountryService svc) => _svc = svc;
+
+        [HttpGet]
+        [SwaggerOperation(Summary = "Lista países (para cuadro de selección)")]
+        public async Task<ActionResult<IEnumerable<CountryBasic>>> GetAll([FromQuery] bool onlyActive = true)
+            => Ok(await _svc.ListAsync(onlyActive));
+
+        [HttpGet("{code}")]
+        public async Task<ActionResult<CountryBasic>> GetByCode(string code)
+        {
+            var c = await _svc.GetAsync(code.ToUpper());
+            return c is null ? NotFound() : Ok(c);
+        }
+
+        [HttpPost] // útil para cargar/actualizar catálogo
+        public async Task<ActionResult<CountryBasic>> Upsert([FromBody] CountryBasic c)
+            => Ok(await _svc.UpsertAsync(c));
+    }
+
+    // Alias /api/Paises
+    [ApiController]
+    [Route("api/[controller]")]
+    public class PaisesController : CountriesController
+    {
+        public PaisesController(ICountryService svc) : base(svc) { }
     }
 }

@@ -1,10 +1,23 @@
 {
   "openapi": "3.0.4",
   "info": {
-    "title": "AgenciaViajes.API",
-    "version": "1.0"
+    "title": "Agencia de Viajes — API (Firebase/Firestore)",
+    "description": "Clientes, países, viajes y favoritos sobre Firestore",
+    "version": "v1"
   },
   "paths": {
+    "/debug/firestore": {
+      "get": {
+        "tags": [
+          "AgenciaViajes.API"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/": {
       "get": {
         "tags": [
@@ -22,6 +35,8 @@
         "tags": [
           "Auth"
         ],
+        "summary": "Registrar cliente",
+        "description": "Guarda cliente con idCliente, nombre, correo y país destino preferido",
         "requestBody": {
           "content": {
             "application/json": {
@@ -118,9 +133,35 @@
         "tags": [
           "Auth"
         ],
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDto"
+                }
+              }
+            }
           }
         }
       }
@@ -130,18 +171,92 @@
         "tags": [
           "Countries"
         ],
+        "summary": "Lista países (para cuadro de selección)",
         "parameters": [
           {
-            "name": "name",
+            "name": "onlyActive",
             "in": "query",
             "schema": {
-              "type": "string"
+              "type": "boolean",
+              "default": true
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CountryBasic"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CountryBasic"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CountryBasic"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Countries"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBasic"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBasic"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBasic"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBasic"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBasic"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBasic"
+                }
+              }
+            }
           }
         }
       }
@@ -163,7 +278,24 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBasic"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBasic"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBasic"
+                }
+              }
+            }
           }
         }
       }
@@ -173,9 +305,45 @@
         "tags": [
           "Favorites"
         ],
+        "summary": "Rutas guardadas por cliente",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FavoriteCountry"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FavoriteCountry"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FavoriteCountry"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -185,6 +353,7 @@
         "tags": [
           "Favorites"
         ],
+        "summary": "Guardar ruta favorita (país y opcional ciudad)",
         "parameters": [
           {
             "name": "countryCode",
@@ -193,11 +362,42 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "clientId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "city",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FavoriteCountry"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FavoriteCountry"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FavoriteCountry"
+                }
+              }
+            }
           }
         }
       }
@@ -207,6 +407,7 @@
         "tags": [
           "Favorites"
         ],
+        "summary": "Eliminar ruta favorita",
         "parameters": [
           {
             "name": "id",
@@ -224,43 +425,136 @@
         }
       }
     },
-    "/api/Trips": {
+    "/api/Paises": {
       "get": {
         "tags": [
-          "Trips"
+          "Paises"
+        ],
+        "summary": "Lista países (para cuadro de selección)",
+        "parameters": [
+          {
+            "name": "onlyActive",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            }
+          }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CountryBasic"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CountryBasic"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CountryBasic"
+                  }
+                }
+              }
+            }
           }
         }
       },
       "post": {
         "tags": [
-          "Trips"
+          "Paises"
         ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/TripCreateRequest"
+                "$ref": "#/components/schemas/CountryBasic"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/TripCreateRequest"
+                "$ref": "#/components/schemas/CountryBasic"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/TripCreateRequest"
+                "$ref": "#/components/schemas/CountryBasic"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBasic"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBasic"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBasic"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Paises/{code}": {
+      "get": {
+        "tags": [
+          "Paises"
+        ],
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBasic"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBasic"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBasic"
+                }
+              }
+            }
           }
         }
       }
@@ -282,7 +576,24 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TripDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TripDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TripDto"
+                }
+              }
+            }
           }
         }
       },
@@ -321,7 +632,24 @@
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TripDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TripDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TripDto"
+                }
+              }
+            }
           }
         }
       },
@@ -346,49 +674,231 @@
         }
       }
     },
-    "/api/Users/register": {
+    "/api/Usuarios/registrarse": {
       "post": {
         "tags": [
-          "Users"
+          "Usuarios"
         ],
-        "parameters": [
-          {
-            "name": "email",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "password",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "name",
-            "in": "query",
-            "schema": {
-              "type": "string"
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterRequest"
+              }
             }
           }
-        ],
+        },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDto"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/api/Users/profile": {
+    "/api/Usuarios/perfil": {
       "get": {
         "tags": [
-          "Users"
+          "Usuarios"
+        ],
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Usuarios/{clientId}/viajes": {
+      "get": {
+        "tags": [
+          "Usuarios"
+        ],
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TripDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TripDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TripDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Viajes": {
+      "get": {
+        "tags": [
+          "Viajes"
+        ],
+        "summary": "Lista viajes (filtro opcional por clientId)",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TripDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TripDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TripDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Viajes"
+        ],
+        "summary": "Crear viaje (país, ciudad, estancia, tipo pasajero, fecha)",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TripCreateRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TripCreateRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TripCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TripDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TripDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TripDto"
+                }
+              }
+            }
           }
         }
       }
@@ -399,11 +909,11 @@
       "AuthResponse": {
         "type": "object",
         "properties": {
-          "token": {
+          "clientId": {
             "type": "string",
             "nullable": true
           },
-          "userId": {
+          "fullName": {
             "type": "string",
             "nullable": true
           },
@@ -411,9 +921,56 @@
             "type": "string",
             "nullable": true
           },
+          "destinationCountryCode": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CountryBasic": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
           "name": {
             "type": "string",
             "nullable": true
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "FavoriteCountry": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "clientId": {
+            "type": "string",
+            "nullable": true
+          },
+          "countryCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
           }
         },
         "additionalProperties": false
@@ -421,29 +978,42 @@
       "LoginRequest": {
         "type": "object",
         "properties": {
-          "email": {
+          "clientId": {
             "type": "string",
             "nullable": true
           },
-          "password": {
+          "email": {
             "type": "string",
             "nullable": true
           }
         },
         "additionalProperties": false
       },
+      "PassengerType": {
+        "enum": [
+          0,
+          1,
+          2
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
       "RegisterRequest": {
         "type": "object",
         "properties": {
+          "clientId": {
+            "type": "string",
+            "nullable": true
+          },
+          "fullName": {
+            "type": "string",
+            "nullable": true
+          },
           "email": {
             "type": "string",
             "nullable": true
           },
-          "password": {
-            "type": "string",
-            "nullable": true
-          },
-          "name": {
+          "destinationCountryCode": {
             "type": "string",
             "nullable": true
           }
@@ -453,7 +1023,7 @@
       "TripCreateRequest": {
         "type": "object",
         "properties": {
-          "title": {
+          "clientId": {
             "type": "string",
             "nullable": true
           },
@@ -461,29 +1031,33 @@
             "type": "string",
             "nullable": true
           },
-          "startDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "endDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "status": {
+          "city": {
             "type": "string",
             "nullable": true
           },
-          "description": {
+          "stayDays": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "passengerType": {
+            "$ref": "#/components/schemas/PassengerType"
+          },
+          "travelDate": {
             "type": "string",
+            "format": "date-time",
             "nullable": true
           }
         },
         "additionalProperties": false
       },
-      "TripUpdateRequest": {
+      "TripDto": {
         "type": "object",
         "properties": {
-          "title": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "clientId": {
             "type": "string",
             "nullable": true
           },
@@ -491,21 +1065,94 @@
             "type": "string",
             "nullable": true
           },
-          "startDate": {
+          "city": {
             "type": "string",
-            "format": "date-time"
+            "nullable": true
           },
-          "endDate": {
+          "stayDays": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "passengerType": {
             "type": "string",
-            "format": "date-time"
+            "nullable": true
+          },
+          "travelDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
           },
           "status": {
             "type": "string",
             "nullable": true
           },
-          "description": {
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TripStatus": {
+        "enum": [
+          0,
+          1,
+          2
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "TripUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "countryCode": {
             "type": "string",
             "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "stayDays": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "passengerType": {
+            "$ref": "#/components/schemas/PassengerType"
+          },
+          "travelDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/TripStatus"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "fullName": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "preferredCountryCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
           }
         },
         "additionalProperties": false
@@ -514,7 +1161,7 @@
     "securitySchemes": {
       "Bearer": {
         "type": "apiKey",
-        "description": "Introduce tu token JWT con el prefijo Bearer",
+        "description": "Bearer {token}",
         "name": "Authorization",
         "in": "header"
       }

@@ -1,39 +1,38 @@
-using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using AgenciaViajes.API.Models;
 using AgenciaViajes.API.Services;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 
-namespace AgenciaViajes.API.Controllers;
-
-[ApiController]
-[Route("api/[controller]")]
-[Authorize]
-public class FavoritesController : ControllerBase
+namespace AgenciaViajes.API.Controllers
 {
-    private readonly FavoriteService _service;
-    public FavoritesController(FavoriteService service) => _service = service;
-
-    private string UserId => User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-
-    [HttpGet]
-    public async Task<IActionResult> GetAll()
+    [ApiController]
+    [Route("api/[controller]")]
+    public class FavoritesController : ControllerBase
     {
-        var favs = await _service.GetByUser(UserId);
-        return Ok(favs);
-    }
+        private readonly IFavoriteService _svc;
+        public FavoritesController(IFavoriteService svc) => _svc = svc;
 
-    [HttpPost("{countryCode}")]
-    public async Task<IActionResult> Add(string countryCode)
-    {
-        var fav = await _service.Add(UserId, countryCode);
-        return Ok(fav);
-    }
+        [HttpGet]
+        [SwaggerOperation(Summary = "Rutas guardadas por cliente")]
+        public async Task<ActionResult<IEnumerable<FavoriteCountry>>> List([FromQuery] string clientId)
+            => Ok(await _svc.ListAsync(clientId));
 
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> Remove(string id)
-    {
-        await _service.Remove(UserId, id);
-        return NoContent();
+        [HttpPost("{countryCode}")]
+        [SwaggerOperation(Summary = "Guardar ruta favorita (país y opcional ciudad)")]
+        public async Task<ActionResult<FavoriteCountry>> Add(string countryCode, [FromQuery] string clientId, [FromQuery] string? city = null)
+        {
+            var saved = await _svc.AddAsync(new FavoriteCountry
+            {
+                ClientId = clientId,
+                CountryCode = countryCode.ToUpper(),
+                City = string.IsNullOrWhiteSpace(city) ? null : city
+            });
+            return Ok(saved);
+        }
+
+        [HttpDelete("{id}")]
+        [SwaggerOperation(Summary = "Eliminar ruta favorita")]
+        public async Task<IActionResult> Delete(string id)
+            => (await _svc.RemoveAsync(id)) ? NoContent() : NotFound();
     }
 }

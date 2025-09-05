@@ -1,87 +1,64 @@
-﻿using System.Security.Claims;
+﻿using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using AgenciaViajes.API.DTOs;
+using AgenciaViajes.API.Models;
 using AgenciaViajes.API.Services;
-using Google.Cloud.Firestore;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 
-namespace AgenciaViajes.API.Controllers;
-
-[ApiController]
-[Route("api/[controller]")]
-public class AuthController : ControllerBase
+namespace AgenciaViajes.API.Controllers
 {
-    private readonly AuthService _auth;
-    private readonly FirestoreDb _db;
-
-    public AuthController(AuthService auth, FirestoreDb db)
+    [ApiController]
+    [Route("api/[controller]")]
+    public class AuthController : ControllerBase
     {
-        _auth = auth;
-        _db = db;
-    }
+        private readonly IUserService _users;
+        public AuthController(IUserService users) => _users = users;
 
-    // =====================
-    // REGISTRO
-    // =====================
-    [HttpPost("register")]
-    public async Task<ActionResult<AuthResponse>> Register(RegisterRequest req)
-    {
-        // 🔹 Registrar usuario en AuthService (ej: en memoria o EF)
-        var user = await _auth.RegisterAsync(req.Email, req.Password, req.Name);
-
-        // 🔹 Guardar también en Firestore
-        var docRef = _db.Collection("usuarios").Document(user.Id);
-        await docRef.SetAsync(new
+        [HttpPost("register")]
+        [SwaggerOperation(Summary = "Registrar cliente", Description = "Guarda cliente con idCliente, nombre, correo y país destino preferido")]
+        public async Task<ActionResult<AuthResponse>> Register([FromBody] RegisterRequest req)
         {
-            Id = user.Id,
-            Email = user.Email,
-            Name = user.Name,
-            Password = req.Password, // ⚠️ en producción nunca guardar texto plano
-            RegisteredAt = DateTime.UtcNow
-        });
-
-        // 🔹 Generar token
-        var token = _auth.CreateJwt(user);
-        return Ok(new AuthResponse(token, user.Id, user.Email, user.Name));
-    }
-
-    // =====================
-    // LOGIN
-    // =====================
-    [HttpPost("login")]
-    public async Task<ActionResult<AuthResponse>> Login(LoginRequest req)
-    {
-        // 🔹 Validar credenciales contra AuthService
-        var user = await _auth.ValidateCredentialsAsync(req.Email, req.Password);
-
-        // 🔹 (Opcional) Validar también en Firestore
-        var snapshot = await _db.Collection("usuarios")
-            .WhereEqualTo("Email", req.Email)
-            .WhereEqualTo("Password", req.Password)
-            .Limit(1)
-            .GetSnapshotAsync();
-
-        if (!snapshot.Any())
-        {
-            return Unauthorized("Usuario no encontrado en Firestore.");
+            var u = new User
+            {
+                Id = string.IsNullOrWhiteSpace(req.ClientId) ? Guid.NewGuid().ToString() : req.ClientId,
+                FullName = req.FullName.Trim(),
+                Email = req.Email.Trim().ToLower(),
+                PreferredCountryCode = req.DestinationCountryCode
+            };
+            var saved = await _users.RegisterAsync(u);
+            return Ok(new AuthResponse
+            {
+                ClientId = saved.Id,
+                FullName = saved.FullName,
+                Email = saved.Email,
+                DestinationCountryCode = saved.PreferredCountryCode
+            });
         }
 
-        // 🔹 Generar token
-        var token = _auth.CreateJwt(user);
-        return Ok(new AuthResponse(token, user.Id, user.Email, user.Name));
-    }
+        [HttpPost("login")]
+        public ActionResult<AuthResponse> Login([FromBody] LoginRequest req)
+        {
+            // Este endpoint es solo eco para tu front: puedes validarlo en Firestore si quieres
+            return Ok(new AuthResponse
+            {
+                ClientId = req.ClientId,
+                FullName = "Cliente",
+                Email = req.Email
+            });
+        }
 
-    // =====================
-    // PERFIL
-    // =====================
-    [Authorize]
-    [HttpGet("me")]
-    public ActionResult<object> Me()
-    {
-        var uid = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? User.FindFirstValue("sub");
-        var email = User.FindFirstValue(ClaimTypes.Email);
-        var name = User.FindFirstValue("name");
-
-        return Ok(new { userId = uid, email, name });
+        [HttpGet("me")]
+        public async Task<ActionResult<UserDto>> Me([FromQuery] string clientId)
+        {
+            var u = await _users.GetAsync(clientId);
+            if (u is null) return NotFound();
+            return Ok(new UserDto
+            {
+                Id = u.Id,
+                FullName = u.FullName,
+                Email = u.Email,
+                PreferredCountryCode = u.PreferredCountryCode,
+                CreatedAt = u.CreatedAt
+            });
+        }
     }
 }

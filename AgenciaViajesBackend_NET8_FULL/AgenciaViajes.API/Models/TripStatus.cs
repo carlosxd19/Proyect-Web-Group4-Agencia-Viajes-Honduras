@@ -1,9 +1,5 @@
-﻿namespace AgenciaViajes.API.Models;
-
-public enum TripStatus
+﻿namespace AgenciaViajes.API.Models
 {
-    Planned,     // Planificado
-    Ongoing,     // En curso
-    Completed,   // Finalizado
-    Cancelled    // Cancelado
+    public enum TripStatus { Pending, Confirmed, Cancelled }
+    public enum PassengerType { Adult, Child, Infant }
 }

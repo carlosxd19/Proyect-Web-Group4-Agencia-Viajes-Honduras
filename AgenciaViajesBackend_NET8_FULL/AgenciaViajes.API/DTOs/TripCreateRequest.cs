@@ -1,10 +1,11 @@
-﻿
+﻿using AgenciaViajes.API.Models;
+
 public class TripCreateRequest
 {
-    public string Title { get; set; } = "";
-    public string CountryCode { get; set; } = "";
-    public DateTime StartDate { get; set; }
-    public DateTime EndDate { get; set; }
-    public string Status { get; set; } = "Planned";
-    public string? Description { get; set; }
+    public string ClientId { get; set; } = default!;
+    public string CountryCode { get; set; } = default!;
+    public string City { get; set; } = default!;
+    public int StayDays { get; set; }
+    public PassengerType PassengerType { get; set; } = PassengerType.Adult;
+    public DateTime? TravelDate { get; set; }
 }

@@ -1,37 +1,40 @@
-﻿using AgenciaViajes.API.Models;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Google.Cloud.Firestore;
+using AgenciaViajes.API.Models;
 
-namespace AgenciaViajes.API.Services;
-
-public class FavoriteService
+namespace AgenciaViajes.API.Services
 {
-    private readonly FirestoreDb _db;
-    public FavoriteService(FirestoreDb db) => _db = db;
-
-    private CollectionReference FavCollection => _db.Collection("favorites");
-
-    public async Task<List<Favorite>> GetByUser(string userId)
+    public class FavoriteService : IFavoriteService
     {
-        var snap = await FavCollection.WhereEqualTo("UserId", userId).GetSnapshotAsync();
-        return snap.Documents.Select(d => d.ConvertTo<Favorite>()).ToList();
-    }
+        private readonly FirestoreDb _db;
+        private const string COL = "favoritos";
+        public FavoriteService(FirestoreDb db) => _db = db;
 
-    public async Task<Favorite> Add(string userId, string countryCode)
-    {
-        var fav = new Favorite { UserId = userId, CountryCode = countryCode };
-        await FavCollection.Document(fav.Id).SetAsync(fav);
-        return fav;
-    }
-
-    public async Task Remove(string userId, string id)
-    {
-        var doc = FavCollection.Document(id);
-        var snap = await doc.GetSnapshotAsync();
-        if (snap.Exists)
+        public async Task<IReadOnlyList<FavoriteCountry>> ListAsync(string clientId)
         {
-            var fav = snap.ConvertTo<Favorite>();
-            if (fav.UserId == userId)
-                await doc.DeleteAsync();
+            var snaps = await _db.Collection(COL)
+                                 .WhereEqualTo("ClientId", clientId)
+                                 .OrderByDescending("CreatedAt")
+                                 .GetSnapshotAsync();
+            return snaps.Documents.Select(d => d.ConvertTo<FavoriteCountry>()).ToList();
+        }
+
+        public async Task<FavoriteCountry> AddAsync(FavoriteCountry fav)
+        {
+            fav.CountryCode = fav.CountryCode.ToUpper();
+            await _db.Collection(COL).Document(fav.Id).SetAsync(fav, SetOptions.Overwrite);
+            return fav;
+        }
+
+        public async Task<bool> RemoveAsync(string id)
+        {
+            var doc = _db.Collection(COL).Document(id);
+            var snap = await doc.GetSnapshotAsync();
+            if (!snap.Exists) return false;
+            await doc.DeleteAsync();
+            return true;
         }
     }
 }
