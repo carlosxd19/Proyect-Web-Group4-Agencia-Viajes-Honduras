@@ -94,7 +94,7 @@ builder.Services.AddSingleton(provider =>
 {
     var fb = builder.Configuration.GetSection("Firebase");
     var credentialsPath = fb["CredentialsPath"]
-                          ?? "config/interviajes-af2ed-firebase-adminsdk-fbsvc-b5dc9c7731.json";
+                          ?? "config/interviajes-af2ed-firebase-adminsdk-fbsvc-83fc3d021a.json";
     var projectId = fb["ProjectId"] ?? "interviajes-af2ed";
 
     // 0) Validaciones rápidas de archivo
