@@ -94,84 +94,6 @@
     ]
   },
   {
-    "ContainingType": "AgenciaViajes.API.Controllers.CountriesController",
-    "Method": "GetAll",
-    "RelativePath": "api/Countries",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "onlyActive",
-        "Type": "System.Boolean",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[AgenciaViajes.API.Models.CountryBasic, AgenciaViajes.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "AgenciaViajes.API.Controllers.CountriesController",
-    "Method": "Upsert",
-    "RelativePath": "api/Countries",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "c",
-        "Type": "AgenciaViajes.API.Models.CountryBasic",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "AgenciaViajes.API.Models.CountryBasic",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "AgenciaViajes.API.Controllers.CountriesController",
-    "Method": "GetByCode",
-    "RelativePath": "api/Countries/{code}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "code",
-        "Type": "System.String",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "AgenciaViajes.API.Models.CountryBasic",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
     "ContainingType": "AgenciaViajes.API.Controllers.FavoritesController",
     "Method": "List",
     "RelativePath": "api/Favorites",
@@ -252,14 +174,14 @@
   {
     "ContainingType": "AgenciaViajes.API.Controllers.CountriesController",
     "Method": "GetAll",
-    "RelativePath": "api/Paises",
+    "RelativePath": "api/Pa\u00EDses",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "onlyActive",
-        "Type": "System.Boolean",
+        "Name": "region",
+        "Type": "System.String",
         "IsRequired": false
       }
     ],
@@ -278,7 +200,7 @@
   {
     "ContainingType": "AgenciaViajes.API.Controllers.CountriesController",
     "Method": "Upsert",
-    "RelativePath": "api/Paises",
+    "RelativePath": "api/Pa\u00EDses",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -303,8 +225,90 @@
   },
   {
     "ContainingType": "AgenciaViajes.API.Controllers.CountriesController",
+    "Method": "EuropeList",
+    "RelativePath": "api/Pa\u00EDses/europa",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[System.Object, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "AgenciaViajes.API.Controllers.CountriesController",
+    "Method": "ListByRegion",
+    "RelativePath": "api/Pa\u00EDses/filtrar",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "region",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[System.Object, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "AgenciaViajes.API.Controllers.CountriesController",
+    "Method": "CreateFromSelection",
+    "RelativePath": "api/Pa\u00EDses/seleccionar",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "AgenciaViajes.API.DTOs.CountrySelectionRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "AgenciaViajes.API.Models.CountryBasic",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "AgenciaViajes.API.Controllers.CountriesController",
+    "Method": "SeedEurope",
+    "RelativePath": "api/Pa\u00EDses/semilla/europa",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AgenciaViajes.API.Controllers.CountriesController",
     "Method": "GetByCode",
-    "RelativePath": "api/Paises/{code}",
+    "RelativePath": "api/Pa\u00EDses/{code}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -326,79 +330,6 @@
         "StatusCode": 200
       }
     ]
-  },
-  {
-    "ContainingType": "AgenciaViajes.API.Controllers.TripsController",
-    "Method": "Get",
-    "RelativePath": "api/Trips/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.String",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "AgenciaViajes.API.DTOs.TripDto",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "AgenciaViajes.API.Controllers.TripsController",
-    "Method": "Update",
-    "RelativePath": "api/Trips/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.String",
-        "IsRequired": true
-      },
-      {
-        "Name": "req",
-        "Type": "AgenciaViajes.API.DTOs.TripUpdateRequest",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "AgenciaViajes.API.DTOs.TripDto",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "AgenciaViajes.API.Controllers.TripsController",
-    "Method": "Delete",
-    "RelativePath": "api/Trips/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.String",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
   },
   {
     "ContainingType": "AgenciaViajes.API.Controllers.UsuariosController",
@@ -485,13 +416,7 @@
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "clientId",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": [
       {
         "Type": "System.Collections.Generic.IEnumerable\u00601[[AgenciaViajes.API.DTOs.TripDto, AgenciaViajes.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -514,7 +439,7 @@
     "Parameters": [
       {
         "Name": "req",
-        "Type": "TripCreateRequest",
+        "Type": "AgenciaViajes.API.DTOs.TripCreateRequest",
         "IsRequired": true
       }
     ],
@@ -529,6 +454,79 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "AgenciaViajes.API.Controllers.ViajesController",
+    "Method": "GetById",
+    "RelativePath": "api/Viajes/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "AgenciaViajes.API.DTOs.TripDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "AgenciaViajes.API.Controllers.ViajesController",
+    "Method": "Update",
+    "RelativePath": "api/Viajes/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "req",
+        "Type": "AgenciaViajes.API.DTOs.TripUpdateRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "AgenciaViajes.API.DTOs.TripDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "AgenciaViajes.API.Controllers.ViajesController",
+    "Method": "Delete",
+    "RelativePath": "api/Viajes/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "Program\u002B\u003C\u003Ec",
