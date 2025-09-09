@@ -166,19 +166,18 @@
         }
       }
     },
-    "/api/Countries": {
+    "/api/Países": {
       "get": {
         "tags": [
           "Countries"
         ],
-        "summary": "Lista países (para cuadro de selección)",
+        "summary": "Lista países (opcional: filtra por región)",
         "parameters": [
           {
-            "name": "onlyActive",
+            "name": "region",
             "in": "query",
             "schema": {
-              "type": "boolean",
-              "default": true
+              "$ref": "#/components/schemas/Region"
             }
           }
         ],
@@ -218,6 +217,7 @@
         "tags": [
           "Countries"
         ],
+        "summary": "Crear/actualizar un país (manual)",
         "requestBody": {
           "content": {
             "application/json": {
@@ -261,7 +261,7 @@
         }
       }
     },
-    "/api/Countries/{code}": {
+    "/api/Países/{code}": {
       "get": {
         "tags": [
           "Countries"
@@ -296,6 +296,143 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/api/Países/seleccionar": {
+      "post": {
+        "tags": [
+          "Countries"
+        ],
+        "summary": "Guardar un país eligiéndolo desde un selector (Europa)",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CountrySelectionRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CountrySelectionRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CountrySelectionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBasic"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBasic"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBasic"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Países/filtrar": {
+      "get": {
+        "tags": [
+          "Countries"
+        ],
+        "summary": "Lista países por región (predefinido)",
+        "parameters": [
+          {
+            "name": "region",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/Region"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": { }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Países/europa": {
+      "get": {
+        "tags": [
+          "Countries"
+        ],
+        "summary": "Lista de 10 países de Europa (predefinido)",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": { }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Países/semilla/europa": {
+      "post": {
+        "tags": [
+          "Countries"
+        ],
+        "summary": "Guardar en BD los 10 países de Europa",
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -408,255 +545,6 @@
           "Favorites"
         ],
         "summary": "Eliminar ruta favorita",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Paises": {
-      "get": {
-        "tags": [
-          "Paises"
-        ],
-        "summary": "Lista países (para cuadro de selección)",
-        "parameters": [
-          {
-            "name": "onlyActive",
-            "in": "query",
-            "schema": {
-              "type": "boolean",
-              "default": true
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CountryBasic"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CountryBasic"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CountryBasic"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Paises"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CountryBasic"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CountryBasic"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CountryBasic"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/CountryBasic"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CountryBasic"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CountryBasic"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Paises/{code}": {
-      "get": {
-        "tags": [
-          "Paises"
-        ],
-        "parameters": [
-          {
-            "name": "code",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/CountryBasic"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CountryBasic"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CountryBasic"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Trips/{id}": {
-      "get": {
-        "tags": [
-          "Trips"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/TripDto"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TripDto"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TripDto"
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Trips"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/TripUpdateRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/TripUpdateRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/TripUpdateRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/TripDto"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TripDto"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TripDto"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Trips"
-        ],
         "parameters": [
           {
             "name": "id",
@@ -813,16 +701,7 @@
         "tags": [
           "Viajes"
         ],
-        "summary": "Lista viajes (filtro opcional por clientId)",
-        "parameters": [
-          {
-            "name": "clientId",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
+        "summary": "Lista de viajes",
         "responses": {
           "200": {
             "description": "OK",
@@ -859,7 +738,7 @@
         "tags": [
           "Viajes"
         ],
-        "summary": "Crear viaje (país, ciudad, estancia, tipo pasajero, fecha)",
+        "summary": "Crear viaje",
         "requestBody": {
           "content": {
             "application/json": {
@@ -899,6 +778,122 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/api/Viajes/{id}": {
+      "get": {
+        "tags": [
+          "Viajes"
+        ],
+        "summary": "Obtiene un viaje por id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TripDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TripDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TripDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Viajes"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TripUpdateRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TripUpdateRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TripUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TripDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TripDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TripDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Viajes"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -942,9 +937,42 @@
           "isActive": {
             "type": "boolean"
           },
+          "region": {
+            "$ref": "#/components/schemas/Region"
+          },
           "createdAt": {
             "type": "string",
             "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CountryEurope": {
+        "enum": [
+          "España",
+          "Francia",
+          "Alemania",
+          "Italia",
+          "Portugal",
+          "ReinoUnido",
+          "PaisesBajos",
+          "Belgica",
+          "Suiza",
+          "Suecia"
+        ],
+        "type": "string"
+      },
+      "CountrySelectionRequest": {
+        "required": [
+          "country"
+        ],
+        "type": "object",
+        "properties": {
+          "country": {
+            "$ref": "#/components/schemas/CountryEurope"
+          },
+          "isActive": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false
@@ -998,6 +1026,12 @@
         "type": "integer",
         "format": "int32"
       },
+      "Region": {
+        "enum": [
+          "Europa"
+        ],
+        "type": "string"
+      },
       "RegisterRequest": {
         "type": "object",
         "properties": {
@@ -1021,21 +1055,30 @@
         "additionalProperties": false
       },
       "TripCreateRequest": {
+        "required": [
+          "city",
+          "clientId",
+          "countryCode",
+          "passengerType",
+          "travelDate"
+        ],
         "type": "object",
         "properties": {
           "clientId": {
-            "type": "string",
-            "nullable": true
+            "minLength": 1,
+            "type": "string"
           },
           "countryCode": {
-            "type": "string",
-            "nullable": true
+            "minLength": 1,
+            "type": "string"
           },
           "city": {
-            "type": "string",
-            "nullable": true
+            "minLength": 1,
+            "type": "string"
           },
           "stayDays": {
+            "maximum": 365,
+            "minimum": 1,
             "type": "integer",
             "format": "int32"
           },
@@ -1044,8 +1087,7 @@
           },
           "travelDate": {
             "type": "string",
-            "format": "date-time",
-            "nullable": true
+            "format": "date-time"
           }
         },
         "additionalProperties": false
@@ -1097,7 +1139,8 @@
         "enum": [
           0,
           1,
-          2
+          2,
+          3
         ],
         "type": "integer",
         "format": "int32"
